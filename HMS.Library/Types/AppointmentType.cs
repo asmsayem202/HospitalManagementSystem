@@ -12,6 +12,6 @@ namespace HMS.Library.Types
 	{
 		[Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int AppointmentTypeID { get; set; }
-		public string Type { get; set; }
+		public string Name { get; set; }
 	}
 }
