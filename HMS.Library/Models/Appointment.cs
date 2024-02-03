@@ -27,7 +27,6 @@ namespace HMS.Library.Models
 
 		public virtual Patient? Patient { get; set; }
 		public virtual Doctor? Doctor { get; set; }
-		public virtual Admission? Admission { get; set; }
 		public virtual Prescribe? Prescribe { get; set; }
 	}
 }
