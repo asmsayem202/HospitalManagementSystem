@@ -6,19 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HMS.Library.Models
+namespace HMS.Library.Types
 {
-	public class Room
+	public class AppointmentType
 	{
 		[Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		public int RoomID { get; set; }
-		[Required]
-		public string RoomNumber { get; set; }
-		public string? Status { get; set; } //Occupied,Availabe
-
-		//Navigation Property
-
-		
-		public Ward? Ward { get; set; }
+		public int AppointmentTypeID { get; set; }
+		public string Type { get; set; }
 	}
 }

@@ -28,7 +28,7 @@ namespace HMS.Library.Models
 		//Navigation Property
 
 		public virtual Supplier? Supplier { get; set; }
-		public virtual ICollection<TransactionType> TransactionType { get; set; } = new List<TransactionType>();
+		public virtual ICollection<TransactionType>? TransactionType { get; set; } = new List<TransactionType>();
 
 	}
 }

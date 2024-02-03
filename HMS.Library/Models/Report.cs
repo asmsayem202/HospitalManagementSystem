@@ -14,6 +14,8 @@ namespace HMS.Library.Models
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int ReportID { get; set; }
+		public int PatientId { get; set; }
+
 
 		public string Title { get; set; }
 

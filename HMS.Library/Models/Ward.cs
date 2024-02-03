@@ -21,5 +21,8 @@ namespace HMS.Library.Models
 		public virtual ICollection<Admission>? Admission { get; set; } = new List<Admission>();
 
 		public virtual ICollection<Patient>? Patient { get; set; } = new List<Patient>();
+		public virtual Nurse? Nurse { get; set; }
+		public virtual Department? Department { get; set; }
+		public virtual Room? Room { get; set; }
 	}
 }

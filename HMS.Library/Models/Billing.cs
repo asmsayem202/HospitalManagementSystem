@@ -12,6 +12,8 @@ namespace HMS.Library.Models
 	{
 		[Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int BillingID { get; set; }
+		public int PatientId { get; set; }
+
 
 		[DataType(DataType.DateTime)]
 		public DateTime DateTime { get; set; }
@@ -21,6 +23,8 @@ namespace HMS.Library.Models
 		//Navigation Property
 
 		public virtual Patient? Patient { get; set; }
+		public virtual Report? Report { get; set; }
+		public virtual Discharge? Discharge { get; set; }
 
 
 	}

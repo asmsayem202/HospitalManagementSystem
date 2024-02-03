@@ -20,10 +20,8 @@ namespace HMS.Library.Models
 
 		//Navigation Property
 
-		//public Staff StaffID { get; set; }
-		//public Department DepartmentID { get; set; }
-		//public Room RoomID { get; set; }
-		//public Nurse NurseID { get; set; }
-		//public Doctor DoctorID { get; set; }
+		public virtual Staff? Staff { get; set; }
+		public virtual Nurse? Nurse { get; set; }
+		public virtual Doctor? Doctor { get; set; }
 	}
 }

@@ -13,6 +13,8 @@ namespace HMS.Library.Models
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int PrescriptionID { get; set; }
+		public int PatientId { get; set; }
+
 
 		[Required]
 		[StringLength(50)]

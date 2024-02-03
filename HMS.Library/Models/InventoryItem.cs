@@ -26,5 +26,6 @@ namespace HMS.Library.Models
 		//Navigation Property
 
 		public virtual Supplier? Supplier { get; set; }
+		
 	}
 }

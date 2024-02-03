@@ -13,6 +13,8 @@ namespace HMS.Library.Models
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int DischargeID { get; set; }
+		public int PatientId { get; set; }
+
 
 		[Required]
 		[DataType(DataType.DateTime)]
@@ -26,6 +28,8 @@ namespace HMS.Library.Models
 		//Navigation Property
 
 		public virtual Admission? Admission { get; set; }
+		public virtual Patient? Patient { get; set; }
+
 
 	}
 }

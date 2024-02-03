@@ -35,6 +35,7 @@ namespace HMS.Library.DAL
         public DbSet<ReportType> ReportTypes { get; set; }
         public DbSet<TransactionType> TransactionTypes { get; set; }
         public DbSet<BloodType> BloodTypes { get; set; }
+        public DbSet<AppointmentType> AppointmentTypes { get; set; }
 
 
         public HMSdb(DbContextOptions opt) : base(opt)
