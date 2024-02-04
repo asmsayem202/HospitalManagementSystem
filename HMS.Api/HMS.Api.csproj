@@ -22,4 +22,8 @@
     <ProjectReference Include="..\HMS.Library\HMS.Library.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Database\" />
+  </ItemGroup>
+
 </Project>

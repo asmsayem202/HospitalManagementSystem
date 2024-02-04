@@ -13,7 +13,7 @@ namespace HMS.Library.DAL
 		public HMSdb CreateDbContext(string[] args)
 		{
 			var optionBuilder = new DbContextOptionsBuilder();
-			optionBuilder.UseSqlServer("");
+			optionBuilder.UseSqlServer("server=(localdb)\\mssqllocaldb; database=HmsDb; trusted_connection=true; trust server certificate=true");
 			return new HMSdb(optionBuilder.Options);
 		}
 	}
