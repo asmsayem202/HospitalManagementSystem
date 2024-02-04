@@ -18,7 +18,6 @@ namespace HMS.Library.Models
 
 		[StringLength(50)]
 		public string? Location { get; set; }
-		public string EmergencyType { get; set; }
 		[DataType(DataType.DateTime)]
 		public DateTime EmergencyDateTime { get; set; }
 		[Required]

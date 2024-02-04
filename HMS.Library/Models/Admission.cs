@@ -16,7 +16,7 @@ namespace HMS.Library.Models
 		public int DoctorId { get; set; }
 
 		[DataType(DataType.DateTime)]
-		public DateTime Admissiondate { get; set; }
+		public DateTime AdmissionDate { get; set; }
 
 
 		//Navigation Property
