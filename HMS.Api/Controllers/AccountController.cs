@@ -28,10 +28,14 @@ namespace HMS.Api.Controllers
 		[AllowAnonymous]
 		public async Task<ActionResult<string>> Login(LoginUser user)
 		{
-
-
-			return Ok(await this.tokenService.Get(user));
-
+			try
+			{
+				return Ok(await this.tokenService.Get(user));
+			}
+			catch
+			{
+				return BadRequest("Invalid credential.");
+			}
 		}
 		[HttpPost]
 		public async Task<ActionResult<string>> RegisterUser(LoginUser user)
