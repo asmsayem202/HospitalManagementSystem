@@ -15,6 +15,7 @@ namespace HMS.Library.Models
 
 		[Required, StringLength(150)]
 		public string Name { get; set; }
+		public string Image { get; set; }
 
 		public string Specialization { get; set; }
 

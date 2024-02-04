@@ -13,7 +13,7 @@ namespace HMS.Library.Models
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int DischargeID { get; set; }
-		public int PatientId { get; set; }
+		public int? PatientId { get; set; }
 
 
 		[Required]
@@ -23,6 +23,8 @@ namespace HMS.Library.Models
 		public string? Reason { get; set; }
 
 		public string? DischargeInstructions { get; set; }
+		public int? AdmissionId { get; set; }
+
 
 
 		//Navigation Property

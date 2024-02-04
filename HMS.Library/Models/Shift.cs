@@ -17,6 +17,10 @@ namespace HMS.Library.Models
 		public TimeOnly StartTime { get; set; }
 		public TimeOnly EndTime { get; set; }
 		public bool ShiftStatus { get; set; } //Active or Inactive
+		public int? StaffId { get; set; }
+		public int? NurseId { get; set; }
+		public int? DoctorId { get; set; }
+
 
 		//Navigation Property
 

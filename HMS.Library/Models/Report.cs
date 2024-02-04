@@ -21,7 +21,7 @@ namespace HMS.Library.Models
 
 		[DataType(DataType.Date)]
 		public DateTime? CreationDate { get; set; }
-		public int ReportTypeId { get; set; }
+		public int? ReportTypeId { get; set; }
 
 		public string ReportAuthor { get; set; }
 		public string ReportContent { get; set; }

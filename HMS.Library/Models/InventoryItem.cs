@@ -22,6 +22,7 @@ namespace HMS.Library.Models
 		[Required]
 		public int QuantityInStock { get; set; }
 		public string Category { get; set; }
+		public int? SupplierId { get; set; }
 
 		//Navigation Property
 

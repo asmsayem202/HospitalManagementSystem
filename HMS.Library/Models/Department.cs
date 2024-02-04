@@ -14,6 +14,10 @@ namespace HMS.Library.Models
 		public int DepartmentID { get; set; }
 		[Required]
 		public string DepartmentName { get; set; }
+		public int? AdmissionId { get; set; }
+		public int? PatientId { get; set; }
+		public int? DoctorId { get; set; }
+		public int? WardId { get; set; }
 
 		//Navigation Property
 

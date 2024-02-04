@@ -11,7 +11,7 @@ namespace HMS.Library.Models
 	public class Nurse
 	{
 		[Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		public string NurseID { get; set; }
+		public int NurseID { get; set; }
 		[Required, StringLength(150)]
 		public string Name { get; set; }
 		[Phone]

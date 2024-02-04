@@ -13,14 +13,15 @@ namespace HMS.Library.Models
 	{
 		[Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int AppointmentID { get; set; }
-		public int PatientId { get; set; }
-		public int DoctorId { get; set; }
+		public int? PatientId { get; set; }
+		public int? DoctorId { get; set; }
 
 		//(e.g., Consultation, Procedure, Follow-up)
-		public int AppointmentTypeId { get; set; }
+		public int? AppointmentTypeId { get; set; }
 
 		//(e.g., Scheduled, Confirmed, Completed)
 		public string? Status { get; set; }
+		public int? PrescribeId { get; set; }
 
 
 		//Navigation Property

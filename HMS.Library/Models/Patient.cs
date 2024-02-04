@@ -28,7 +28,7 @@ namespace HMS.Library.Models
 		[EmailAddress]
 		public string? Email { get; set; }
 		public string? Address { get; set; }
-		public int BloodTypeId { get; set; }
+		public int? BloodTypeId { get; set; }
 		public string? InsuranceInformation { get; set; }
 
 		//(e.g., Active, Discharged, Deceased)

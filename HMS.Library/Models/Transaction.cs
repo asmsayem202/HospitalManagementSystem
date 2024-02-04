@@ -24,6 +24,7 @@ namespace HMS.Library.Models
 		public decimal Amount { get; set; }
 
 		public int AssociatedItemId { get; set; }
+		public int? SupplierId { get; set; }
 
 		//Navigation Property
 

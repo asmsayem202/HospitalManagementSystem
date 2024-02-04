@@ -14,6 +14,8 @@ namespace HMS.Library.Models
 		public int WardID { get; set; }
 		[Required]
 		public string? WardName { get; set; }
+		public int? RoomId { get; set; }
+		public int? NurseId { get; set; }
 
 
 

@@ -12,13 +12,15 @@ namespace HMS.Library.Models
 	{
 		[Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int BillingID { get; set; }
-		public int PatientId { get; set; }
+		public int? PatientId { get; set; }
 
 
 		[DataType(DataType.DateTime)]
 		public DateTime DateTime { get; set; }
 
 		public decimal Amount { get; set; }
+		public int? ReportId { get; set; }
+		public int? DischargeId { get; set; }
 
 		//Navigation Property
 
