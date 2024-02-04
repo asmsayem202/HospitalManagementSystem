@@ -17,7 +17,7 @@ namespace HMS.Library.Models
 		public int DoctorId { get; set; }
 
 		//(e.g., Consultation, Procedure, Follow-up)
-		public AppointmentType? Type { get; set; }
+		public int AppointmentTypeId { get; set; }
 
 		//(e.g., Scheduled, Confirmed, Completed)
 		public string? Status { get; set; }
@@ -25,6 +25,7 @@ namespace HMS.Library.Models
 
 		//Navigation Property
 
+		public virtual AppointmentType? AppointmentType { get; set; }
 		public virtual Patient? Patient { get; set; }
 		public virtual Doctor? Doctor { get; set; }
 		public virtual Prescribe? Prescribe { get; set; }

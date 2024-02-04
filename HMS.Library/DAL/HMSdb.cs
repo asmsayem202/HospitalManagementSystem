@@ -33,7 +33,6 @@ namespace HMS.Library.DAL
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<Ward> Wards { get; set; }
         public DbSet<ReportType> ReportTypes { get; set; }
-        public DbSet<TransactionType> TransactionTypes { get; set; }
         public DbSet<BloodType> BloodTypes { get; set; }
         public DbSet<AppointmentType> AppointmentTypes { get; set; }
 

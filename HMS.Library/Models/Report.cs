@@ -21,14 +21,14 @@ namespace HMS.Library.Models
 
 		[DataType(DataType.Date)]
 		public DateTime? CreationDate { get; set; }
-		public ReportType Type { get; set; }
+		public int ReportTypeId { get; set; }
 
 		public string ReportAuthor { get; set; }
 		public string ReportContent { get; set; }
 
 
 		//Navigation Property
-
+		public virtual ReportType? ReportType { get; set; }
 		public virtual ICollection<Patient>? Patient { get; set; } = new List<Patient>();
 
 

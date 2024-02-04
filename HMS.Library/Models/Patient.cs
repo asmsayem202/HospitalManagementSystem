@@ -28,7 +28,7 @@ namespace HMS.Library.Models
 		[EmailAddress]
 		public string? Email { get; set; }
 		public string? Address { get; set; }
-		public BloodType BloodType { get; set; }
+		public int BloodTypeId { get; set; }
 		public string? InsuranceInformation { get; set; }
 
 		//(e.g., Active, Discharged, Deceased)
@@ -37,9 +37,11 @@ namespace HMS.Library.Models
 
 
 
-        //Navigation property
+		//Navigation property
 
-        public virtual ICollection<Admission>? Admission { get; set; } = new List<Admission>();
+		public virtual BloodType? BloodType { get; set; }
+
+		public virtual ICollection<Admission>? Admission { get; set; } = new List<Admission>();
 		public virtual ICollection<Appointment>? Appointment { get; set; } = new List<Appointment>();
 
 		public virtual ICollection<Billing>? Billing { get; set; } = new List<Billing>();
