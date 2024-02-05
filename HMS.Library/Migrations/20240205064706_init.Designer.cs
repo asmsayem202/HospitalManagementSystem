@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HMS.Library.Migrations
 {
     [DbContext(typeof(HMSdb))]
-    [Migration("20240204124219_init")]
+    [Migration("20240205064706_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -226,7 +226,6 @@ namespace HMS.Library.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Image")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")

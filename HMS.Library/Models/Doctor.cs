@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace HMS.Library.Models
 {
@@ -15,8 +16,6 @@ namespace HMS.Library.Models
 
 		[Required, StringLength(150)]
 		public string Name { get; set; }
-		public string Image { get; set; }
-
 		public string Specialization { get; set; }
 
 		[Phone]
@@ -25,6 +24,9 @@ namespace HMS.Library.Models
 		public string Email { get; set; }
 		//(e.g., Sat-Thu 6-9)
 		public string? Schedule { get; set; }
+		public string? Image { get; set; }
+		//[NotMapped]
+		//public IFormFile? ImageFile { get; set; }
 
 
 
