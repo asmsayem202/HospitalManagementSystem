@@ -7,12 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HMS.Library.DAL;
 using HMS.Library.Types;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HMS.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BloodTypesController : ControllerBase
+	[Authorize]
+	public class BloodTypesController : ControllerBase
     {
         private readonly HMSdb _context;
 

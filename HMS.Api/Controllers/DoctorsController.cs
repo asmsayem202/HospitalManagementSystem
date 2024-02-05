@@ -7,12 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HMS.Library.DAL;
 using HMS.Library.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HMS.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DoctorsController : ControllerBase
+	[Authorize]
+	public class DoctorsController : ControllerBase
     {
         private readonly HMSdb _context;
 
