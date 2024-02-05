@@ -25,6 +25,8 @@ namespace HMS.Library.Models
 		//(e.g., Sat-Thu 6-9)
 		public string? Schedule { get; set; }
 		public string? Image { get; set; }
+		public int? PatientId { get; set; }
+		public int? AppointmentId { get; set; }
 
 		//[NotMapped]
 		//public IFormFile? ImageFile { get; set; }

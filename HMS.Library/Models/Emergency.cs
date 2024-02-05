@@ -13,7 +13,7 @@ namespace HMS.Library.Models
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int EmergencyID { get; set; }
-		public int PatientId { get; set; }
+		public int? PatientId { get; set; }
 
 
 		[StringLength(50)]

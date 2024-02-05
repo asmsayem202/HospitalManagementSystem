@@ -24,7 +24,7 @@ namespace HMS.Library.Models
 
 		//Navigation Property
 
-		public virtual Patient? Patient { get; set; }
+		public virtual ICollection<Patient>? Patient { get; set; } = new List<Patient>();
 		public virtual Report? Report { get; set; }
 		public virtual Discharge? Discharge { get; set; }
 

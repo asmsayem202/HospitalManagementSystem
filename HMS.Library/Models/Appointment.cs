@@ -27,7 +27,7 @@ namespace HMS.Library.Models
 		//Navigation Property
 
 		public virtual AppointmentType? AppointmentType { get; set; }
-		public virtual Patient? Patient { get; set; }
+		public virtual ICollection<Patient>? Patient { get; set; } = new List<Patient>();
 		public virtual Doctor? Doctor { get; set; }
 		public virtual Prescribe? Prescribe { get; set; }
 	}

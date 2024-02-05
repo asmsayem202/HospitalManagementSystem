@@ -41,5 +41,18 @@ namespace HMS.Library.DAL
         {
             
         }
-    }
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			base.OnModelCreating(modelBuilder);
+
+			modelBuilder.Entity<BloodType>()
+		       .HasKey(e => e.BloodTypeID);
+
+			//modelBuilder.Entity<Patient>()
+			//  .HasMany(s => s.PatientID)
+			//  .WithOne(e => e.Student)
+			//  .HasForeignKey(e => e.StudentId);
+
+		}
+	}
 }

@@ -14,7 +14,7 @@ namespace HMS.Library.Models
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int ReportID { get; set; }
-		public int PatientId { get; set; }
+		public int? PatientId { get; set; }
 
 
 		public string Title { get; set; }
@@ -28,7 +28,7 @@ namespace HMS.Library.Models
 
 
 		//Navigation Property
-		public virtual ReportType? ReportType { get; set; }
+		public virtual ICollection<ReportType>? ReportType { get; set; } = new List<ReportType>();
 		public virtual ICollection<Patient>? Patient { get; set; } = new List<Patient>();
 
 

@@ -33,17 +33,30 @@ namespace HMS.Library.Models
 
 		//(e.g., Active, Discharged, Deceased)
 		public string Status { get; set; }
+		public int? AdmissionId { get; set; }
+		public int? AppointmentId { get; set; }
+		public int? BillingId { get; set; }
+		public int? DoctorId { get; set; }
+		public int? EmergencyId { get; set; }
+		public int? FollowupId { get; set; }
+		public int? PrescribeId { get; set; }
+		public int? ReportId { get; set; }
+		public int? WardId { get; set; }
 
 
 
 
 		//Navigation property
 
-		public virtual BloodType? BloodType { get; set; }
-
+		public virtual ICollection<BloodType>? BloodType { get; set; } = new List<BloodType>();
+		public virtual ICollection<Doctor>? Doctor { get; set; } = new List<Doctor>();
+		public virtual ICollection<Emergency>? Emergency { get; set; } = new List<Emergency>();
+		public virtual ICollection<Followup>? Followup { get; set; } = new List<Followup>();
+		public virtual ICollection<Prescribe>? Prescribe { get; set; } = new List<Prescribe>();
+		public virtual ICollection<Report>? Report { get; set; } = new List<Report>();
+		public virtual ICollection<Ward>? Ward { get; set; } = new List<Ward>();
 		public virtual ICollection<Admission>? Admission { get; set; } = new List<Admission>();
 		public virtual ICollection<Appointment>? Appointment { get; set; } = new List<Appointment>();
-
 		public virtual ICollection<Billing>? Billing { get; set; } = new List<Billing>();
 
 	}

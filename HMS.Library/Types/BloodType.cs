@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HMS.Library.Models;
 
 namespace HMS.Library.Types
 {
@@ -13,5 +14,9 @@ namespace HMS.Library.Types
         [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int BloodTypeID { get; set; }
         public string Name { get; set; }
-    }
+		public int? PatientId { get; set; }
+
+		//Navigation
+		public virtual ICollection<Patient>? Patient { get; set; } = new List<Patient>();
+	}
 }
