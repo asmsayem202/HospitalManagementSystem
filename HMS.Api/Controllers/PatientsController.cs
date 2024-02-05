@@ -27,14 +27,14 @@ namespace HMS.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Patient>>> GetPatients()
         {
-            return await _context.Patients.ToListAsync();
+            return await _context.Patients.Include(p=>p.BloodType).ToListAsync();
         }
 
         // GET: api/Patients/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Patient>> GetPatient(int id)
         {
-            var patient = await _context.Patients.FindAsync(id);
+            var patient = await _context.Patients.Include(p=>p.BloodType).FirstOrDefaultAsync(p=>p.PatientID==id);
 
             if (patient == null)
             {
