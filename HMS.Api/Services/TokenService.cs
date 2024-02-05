@@ -37,8 +37,7 @@ namespace HMS.Api.Services
 
 			if (!result.Succeeded)
 			{
-				return "Invalid Credential.";
-			}
+				throw new Exception( "Invalid Credential.");			}
 
 			user.Roles = await userManager.GetRolesAsync(validUser);
 
@@ -54,9 +53,8 @@ namespace HMS.Api.Services
 					Subject = new ClaimsIdentity(
 							new Claim[]
 							{
-					new Claim(ClaimTypes.Name, user.UserName)
-					,
-					new Claim(ClaimTypes.Role, string.Join(',',user.Roles))
+								new Claim(ClaimTypes.Name, user.UserName),
+								new Claim(ClaimTypes.Role, string.Join(',',user.Roles))
 
 							}),
 

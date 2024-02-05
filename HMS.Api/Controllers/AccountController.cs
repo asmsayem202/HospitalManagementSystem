@@ -32,9 +32,9 @@ namespace HMS.Api.Controllers
 			{
 				return Ok(await this.tokenService.Get(user));
 			}
-			catch
+			catch(Exception ex)
 			{
-				return BadRequest("Invalid credential.");
+				return BadRequest(ex.Message);
 			}
 		}
 		[HttpPost]
