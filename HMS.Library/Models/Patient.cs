@@ -48,7 +48,7 @@ namespace HMS.Library.Models
 
 		//Navigation property
 
-		public virtual ICollection<BloodType>? BloodType { get; set; } = new List<BloodType>();
+		public virtual BloodType? BloodType { get; set; }
 		public virtual ICollection<Doctor>? Doctor { get; set; } = new List<Doctor>();
 		public virtual ICollection<Emergency>? Emergency { get; set; } = new List<Emergency>();
 		public virtual ICollection<Followup>? Followup { get; set; } = new List<Followup>();
