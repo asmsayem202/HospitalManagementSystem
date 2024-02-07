@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace HMS.Library.Models
 {
@@ -25,9 +26,9 @@ namespace HMS.Library.Models
 		public string Severity { get; set; }
 		public string Status { get; set; }
 
-		//Navigation property
-
-		public virtual ICollection<Patient>? Patient { get; set; } = new List<Patient>();
+        //Navigation property
+        [DeleteBehavior(DeleteBehavior.Cascade)]
+        public virtual ICollection<Patient>? Patient { get; set; } = new List<Patient>();
 
 	}
 }

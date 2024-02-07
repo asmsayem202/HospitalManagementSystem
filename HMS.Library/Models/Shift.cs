@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace HMS.Library.Models
 {
@@ -22,10 +23,14 @@ namespace HMS.Library.Models
 		public int? DoctorId { get; set; }
 
 
-		//Navigation Property
+        //Navigation Property
+        [DeleteBehavior(DeleteBehavior.Cascade)]
+        public virtual Staff? Staff { get; set; }
 
-		public virtual Staff? Staff { get; set; }
-		public virtual Nurse? Nurse { get; set; }
-		public virtual Doctor? Doctor { get; set; }
+        [DeleteBehavior(DeleteBehavior.Cascade)]
+        public virtual Nurse? Nurse { get; set; }
+
+        [DeleteBehavior(DeleteBehavior.Cascade)]
+        public virtual Doctor? Doctor { get; set; }
 	}
 }

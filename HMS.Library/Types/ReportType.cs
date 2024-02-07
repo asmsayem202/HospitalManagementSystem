@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HMS.Library.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace HMS.Library.Types
 {
@@ -17,8 +18,8 @@ namespace HMS.Library.Types
 		public string Name { get; set; }
 		public int? ReportId { get; set; }
 
-		//Navigation property
-
-		public virtual ICollection<Report>? Report { get; set; } = new List<Report>();
+        //Navigation property
+        [DeleteBehavior(DeleteBehavior.Cascade)]
+        public virtual ICollection<Report>? Report { get; set; } = new List<Report>();
 	}
 }

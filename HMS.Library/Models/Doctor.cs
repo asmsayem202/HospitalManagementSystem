@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace HMS.Library.Models
 {
@@ -28,15 +29,17 @@ namespace HMS.Library.Models
 		public int? PatientId { get; set; }
 		public int? AppointmentId { get; set; }
 
-		//[NotMapped]
-		//public IFormFile? ImageFile { get; set; }
+        //[NotMapped]
+        //public IFormFile? ImageFile { get; set; }
 
 
 
-		//Navigation Property
+        //Navigation Property
+        [DeleteBehavior(DeleteBehavior.Cascade)]
+        public virtual ICollection<Patient>? Patient { get; set; } = new List<Patient>();
 
-		public virtual ICollection<Patient>? Patient { get; set; } = new List<Patient>();
-		public virtual ICollection<Appointment>? Appointment { get; set; } = new List<Appointment>();
+        [DeleteBehavior(DeleteBehavior.Cascade)]
+        public virtual ICollection<Appointment>? Appointment { get; set; } = new List<Appointment>();
 
 
 	}

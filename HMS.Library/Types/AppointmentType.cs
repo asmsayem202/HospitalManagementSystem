@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HMS.Library.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace HMS.Library.Types
 {
@@ -15,6 +16,9 @@ namespace HMS.Library.Types
 		public int AppointmentTypeID { get; set; }
 		public string Name { get; set; }
 
+
+        //Navigation property
+        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual ICollection<Appointment>? Appointment { get; set; } = new List<Appointment>();
 
     }

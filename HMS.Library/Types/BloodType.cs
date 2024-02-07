@@ -4,8 +4,10 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using HMS.Library.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace HMS.Library.Types
 {
@@ -16,7 +18,8 @@ namespace HMS.Library.Types
         public string Name { get; set; }
 		public int? PatientId { get; set; }
 
-		//Navigation
+        //Navigation property
+        [DeleteBehavior(DeleteBehavior.Cascade)]
 		public virtual ICollection<Patient>? Patient { get; set; } = new List<Patient>();
 	}
 }

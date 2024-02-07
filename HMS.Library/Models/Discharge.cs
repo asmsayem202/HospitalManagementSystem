@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace HMS.Library.Models
 {
@@ -27,10 +28,12 @@ namespace HMS.Library.Models
 
 
 
-		//Navigation Property
+        //Navigation Property
+        [DeleteBehavior(DeleteBehavior.Cascade)]
+        public virtual Admission? Admission { get; set; }
 
-		public virtual Admission? Admission { get; set; }
-		public virtual Patient? Patient { get; set; }
+        [DeleteBehavior(DeleteBehavior.Cascade)]
+        public virtual Patient? Patient { get; set; }
 
 
 	}

@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace HMS.Library.Models
 {
@@ -17,7 +18,7 @@ namespace HMS.Library.Models
 
 
 		[Required]
-		[StringLength(50)]
+		[StringLength(250)]
 		public string Medication { get; set; }
 		public string? Dosgae { get; set; }
 		public string? Instructions { get; set; }
@@ -31,10 +32,12 @@ namespace HMS.Library.Models
 		public string Status { get; set; }
 
 
-		//Navigation Property
+        //Navigation Property
+        [DeleteBehavior(DeleteBehavior.Cascade)]
+        public virtual ICollection<Patient>? Patient { get; set; } = new List<Patient>();
 
-		public virtual ICollection<Patient>? Patient { get; set; } = new List<Patient>();
-		public virtual ICollection<Appointment>? Appointment { get; set; } = new List<Appointment>();
+        [DeleteBehavior(DeleteBehavior.Cascade)]
+        public virtual ICollection<Appointment>? Appointment { get; set; } = new List<Appointment>();
 
 
 	}

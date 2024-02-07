@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace HMS.Library.Models
 {
@@ -24,9 +25,9 @@ namespace HMS.Library.Models
 		public string Category { get; set; }
 		public int? SupplierId { get; set; }
 
-		//Navigation Property
-
-		public virtual Supplier? Supplier { get; set; }
+        //Navigation Property
+        [DeleteBehavior(DeleteBehavior.Cascade)]
+        public virtual Supplier? Supplier { get; set; }
 		
 	}
 }
