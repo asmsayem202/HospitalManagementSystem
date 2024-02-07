@@ -29,10 +29,8 @@ namespace HMS.Library.Models
 
 
         //Navigation Property
-        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual Admission? Admission { get; set; }
 
-        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual Patient? Patient { get; set; }
 
 

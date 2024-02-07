@@ -24,13 +24,10 @@ namespace HMS.Library.Models
 
 
         //Navigation Property
-        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual Staff? Staff { get; set; }
 
-        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual Nurse? Nurse { get; set; }
 
-        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual Doctor? Doctor { get; set; }
 	}
 }

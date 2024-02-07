@@ -18,7 +18,6 @@ namespace HMS.Library.Types
 
 
         //Navigation property
-        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual ICollection<Appointment>? Appointment { get; set; } = new List<Appointment>();
 
     }

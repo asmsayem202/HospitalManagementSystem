@@ -25,22 +25,17 @@ namespace HMS.Library.Models
 
 
         //Navigation Property
-        [DeleteBehavior(DeleteBehavior.Cascade)]
+        
         public virtual ICollection<Patient>? Patient { get; set; } = new List<Patient>();
 
-        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual Doctor? Doctor { get; set; }
 
-        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual Appointment? Appointment { get; set; }
 
-        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual Emergency? Emergency { get; set; }
 
-        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual Followup? Followup { get; set; }
 
-        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual Ward? Ward { get; set; }
 	}
 }

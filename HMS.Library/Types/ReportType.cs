@@ -19,7 +19,6 @@ namespace HMS.Library.Types
 		public int? ReportId { get; set; }
 
         //Navigation property
-        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual ICollection<Report>? Report { get; set; } = new List<Report>();
 	}
 }

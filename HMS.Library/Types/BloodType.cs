@@ -19,7 +19,6 @@ namespace HMS.Library.Types
 		public int? PatientId { get; set; }
 
         //Navigation property
-        [DeleteBehavior(DeleteBehavior.Cascade)]
 		public virtual ICollection<Patient>? Patient { get; set; } = new List<Patient>();
 	}
 }

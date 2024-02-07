@@ -24,13 +24,10 @@ namespace HMS.Library.Models
 		public int? DischargeId { get; set; }
 
         //Navigation Property
-        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual ICollection<Patient>? Patient { get; set; } = new List<Patient>();
 
-        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual Report? Report { get; set; }
 
-        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual Discharge? Discharge { get; set; }
 
 

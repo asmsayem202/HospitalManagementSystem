@@ -28,7 +28,6 @@ namespace HMS.Library.Models
 		public int? SupplierId { get; set; }
 
         //Navigation Property
-        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual Supplier? Supplier { get; set; }		
 
 	}

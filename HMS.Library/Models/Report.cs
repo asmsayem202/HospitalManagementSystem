@@ -29,10 +29,8 @@ namespace HMS.Library.Models
 
 
         //Navigation Property
-        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual ReportType? ReportType { get; set; }
 
-        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual ICollection<Patient>? Patient { get; set; } = new List<Patient>();
 
 

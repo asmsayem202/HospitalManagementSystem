@@ -21,16 +21,12 @@ namespace HMS.Library.Models
 		public int? WardId { get; set; }
 
         //Navigation Property
-        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual Admission? Admission { get; set; }
 
-        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual Patient? Patient { get; set; }
 
-        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual Doctor? Doctor { get; set; }
 
-        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual Ward? Ward { get; set; }
 	}
 }

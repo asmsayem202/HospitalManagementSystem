@@ -33,10 +33,8 @@ namespace HMS.Library.Models
 
 
         //Navigation Property
-        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual ICollection<Patient>? Patient { get; set; } = new List<Patient>();
 
-        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual ICollection<Appointment>? Appointment { get; set; } = new List<Appointment>();
 
 

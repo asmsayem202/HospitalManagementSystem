@@ -25,7 +25,6 @@ namespace HMS.Library.Models
 		public string Status { get; set; }
 
         //Navigation Property
-        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual ICollection<Patient>? Patient { get; set; } = new List<Patient>();
 
 	}

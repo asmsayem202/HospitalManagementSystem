@@ -48,34 +48,24 @@ namespace HMS.Library.Models
 
 
         //Navigation property
-        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual BloodType? BloodType { get; set; }
 
-        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual ICollection<Doctor>? Doctor { get; set; } = new List<Doctor>();
 
-        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual ICollection<Emergency>? Emergency { get; set; } = new List<Emergency>();
 
-        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual ICollection<Followup>? Followup { get; set; } = new List<Followup>();
 
-        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual ICollection<Prescribe>? Prescribe { get; set; } = new List<Prescribe>();
 
-        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual ICollection<Report>? Report { get; set; } = new List<Report>();
 
-        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual ICollection<Ward>? Ward { get; set; } = new List<Ward>();
 
-        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual ICollection<Admission>? Admission { get; set; } = new List<Admission>();
 
-        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual ICollection<Appointment>? Appointment { get; set; } = new List<Appointment>();
 
-        [DeleteBehavior(DeleteBehavior.Cascade)]
         public virtual ICollection<Billing>? Billing { get; set; } = new List<Billing>();
 
 	}
