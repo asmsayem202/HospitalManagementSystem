@@ -75,10 +75,11 @@ namespace HMS.Api
 					});
 			});
 
-			builder.Services.AddTokenService();
+			//builder.Services.AddTokenService();
+			builder.Services.AddScoped<ITokenService, TokenService>();
 
 
-			builder.Services.AddAuthentication(opt =>
+            builder.Services.AddAuthentication(opt =>
 			{
 				opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
 				opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -108,8 +109,8 @@ namespace HMS.Api
 				app.UseSwagger();
 				app.UseSwaggerUI();
 			}
-
-			app.UseHttpsRedirection();
+            app.UseStaticFiles();
+            app.UseHttpsRedirection();
 
 			app.UseAuthentication();
 			app.UseAuthorization();

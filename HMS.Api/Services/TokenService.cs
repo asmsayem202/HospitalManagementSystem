@@ -75,7 +75,7 @@ namespace HMS.Api.Services
 			catch (Exception ex)
 			{
 
-				return "";
+				return ex.Message;
 			}
 		}
 	}
