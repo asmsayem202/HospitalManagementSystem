@@ -19,7 +19,7 @@ namespace HMS.Library.Models
 		public string Name { get; set; }
 		public string Specialization { get; set; }
 
-		[Phone]
+		//[Phone]
 		public int ContactNo { get; set; }
 		[EmailAddress]
 		public string Email { get; set; }
