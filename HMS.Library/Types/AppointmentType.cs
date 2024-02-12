@@ -18,7 +18,7 @@ namespace HMS.Library.Types
 
 
         //Navigation property
-        public virtual ICollection<Appointment>? Appointment { get; set; } = new List<Appointment>();
+        public ICollection<Appointment>? Appointment { get; set; } = new List<Appointment>();
 
     }
 }

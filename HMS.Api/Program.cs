@@ -20,6 +20,8 @@ namespace HMS.Api
 			var builder = WebApplication.CreateBuilder(args);
 
 			// Add services to the container.
+			builder.Services.AddCors();
+
 
 			builder.Services.AddDbContext<HMSdb>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
 
@@ -46,6 +48,7 @@ namespace HMS.Api
 
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();
+			
 			builder.Services.AddSwaggerGen(c =>
 			{
 				c.SwaggerDoc("v1", new OpenApiInfo { Title = "HMS API", Version = "v1" });
@@ -115,6 +118,12 @@ namespace HMS.Api
 			app.UseAuthentication();
 			app.UseAuthorization();
 
+			app.UseCors(opt =>
+			{
+				opt.AllowAnyHeader();
+				opt.AllowAnyOrigin();
+				opt.AllowAnyMethod();
+			});
 
 			app.MapControllers();
 

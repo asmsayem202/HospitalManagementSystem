@@ -26,7 +26,7 @@ namespace HMS.Library.Models
 		public int? SupplierId { get; set; }
 
         //Navigation Property
-        public virtual Supplier? Supplier { get; set; }
+        public Supplier? Supplier { get; set; }
 		
 	}
 }

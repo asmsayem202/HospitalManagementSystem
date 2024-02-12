@@ -24,10 +24,10 @@ namespace HMS.Library.Models
 
 
         //Navigation Property
-        public virtual Staff? Staff { get; set; }
+        public Staff? Staff { get; set; }
 
-        public virtual Nurse? Nurse { get; set; }
+        public Nurse? Nurse { get; set; }
 
-        public virtual Doctor? Doctor { get; set; }
+        public Doctor? Doctor { get; set; }
 	}
 }

@@ -26,16 +26,16 @@ namespace HMS.Library.Models
 
         //Navigation Property
         
-        public virtual ICollection<Patient>? Patient { get; set; } = new List<Patient>();
+        public Patient? Patient { get; set; }
 
-        public virtual Doctor? Doctor { get; set; }
+        public Doctor? Doctor { get; set; }
 
-        public virtual Appointment? Appointment { get; set; }
+        public Appointment? Appointment { get; set; }
 
-        public virtual Emergency? Emergency { get; set; }
+        public Emergency? Emergency { get; set; }
 
-        public virtual Followup? Followup { get; set; }
+        public Followup? Followup { get; set; }
 
-        public virtual Ward? Ward { get; set; }
+        public Ward? Ward { get; set; }
 	}
 }

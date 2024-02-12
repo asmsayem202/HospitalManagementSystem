@@ -29,9 +29,9 @@ namespace HMS.Library.Models
 
 
         //Navigation Property
-        public virtual Admission? Admission { get; set; }
+        public Admission? Admission { get; set; }
 
-        public virtual Patient? Patient { get; set; }
+        public Patient? Patient { get; set; }
 
 
 	}

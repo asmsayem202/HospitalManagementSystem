@@ -22,51 +22,6 @@ namespace HMS.Library.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("AdmissionPatient", b =>
-                {
-                    b.Property<int>("AdmissionID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PatientID")
-                        .HasColumnType("int");
-
-                    b.HasKey("AdmissionID", "PatientID");
-
-                    b.HasIndex("PatientID");
-
-                    b.ToTable("AdmissionPatient");
-                });
-
-            modelBuilder.Entity("AppointmentPatient", b =>
-                {
-                    b.Property<int>("AppointmentID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PatientID")
-                        .HasColumnType("int");
-
-                    b.HasKey("AppointmentID", "PatientID");
-
-                    b.HasIndex("PatientID");
-
-                    b.ToTable("AppointmentPatient");
-                });
-
-            modelBuilder.Entity("BillingPatient", b =>
-                {
-                    b.Property<int>("BillingID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PatientID")
-                        .HasColumnType("int");
-
-                    b.HasKey("BillingID", "PatientID");
-
-                    b.HasIndex("PatientID");
-
-                    b.ToTable("BillingPatient");
-                });
-
             modelBuilder.Entity("DoctorPatient", b =>
                 {
                     b.Property<int>("DoctorID")
@@ -80,36 +35,6 @@ namespace HMS.Library.Migrations
                     b.HasIndex("PatientID");
 
                     b.ToTable("DoctorPatient");
-                });
-
-            modelBuilder.Entity("EmergencyPatient", b =>
-                {
-                    b.Property<int>("EmergencyID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PatientID")
-                        .HasColumnType("int");
-
-                    b.HasKey("EmergencyID", "PatientID");
-
-                    b.HasIndex("PatientID");
-
-                    b.ToTable("EmergencyPatient");
-                });
-
-            modelBuilder.Entity("FollowupPatient", b =>
-                {
-                    b.Property<int>("FollowupID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PatientID")
-                        .HasColumnType("int");
-
-                    b.HasKey("FollowupID", "PatientID");
-
-                    b.HasIndex("PatientID");
-
-                    b.ToTable("FollowupPatient");
                 });
 
             modelBuilder.Entity("HMS.Library.Models.Admission", b =>
@@ -151,6 +76,8 @@ namespace HMS.Library.Migrations
 
                     b.HasIndex("FollowupId");
 
+                    b.HasIndex("PatientId");
+
                     b.HasIndex("WardId");
 
                     b.ToTable("Admissions");
@@ -164,7 +91,13 @@ namespace HMS.Library.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AppointmentID"));
 
+                    b.Property<DateTime>("AppointmentDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<int?>("AppointmentTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DepartmentId")
                         .HasColumnType("int");
 
                     b.Property<int?>("DoctorId")
@@ -176,14 +109,15 @@ namespace HMS.Library.Migrations
                     b.Property<int?>("PrescribeId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("AppointmentID");
 
                     b.HasIndex("AppointmentTypeId");
 
+                    b.HasIndex("DepartmentId");
+
                     b.HasIndex("DoctorId");
+
+                    b.HasIndex("PatientId");
 
                     b.HasIndex("PrescribeId");
 
@@ -217,6 +151,8 @@ namespace HMS.Library.Migrations
 
                     b.HasIndex("DischargeId");
 
+                    b.HasIndex("PatientId");
+
                     b.HasIndex("ReportId");
 
                     b.ToTable("Billings");
@@ -230,9 +166,6 @@ namespace HMS.Library.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DepartmentID"));
 
-                    b.Property<int?>("AdmissionId")
-                        .HasColumnType("int");
-
                     b.Property<string>("DepartmentName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -240,19 +173,10 @@ namespace HMS.Library.Migrations
                     b.Property<int?>("DoctorId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PatientId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("WardId")
                         .HasColumnType("int");
 
                     b.HasKey("DepartmentID");
-
-                    b.HasIndex("AdmissionId");
-
-                    b.HasIndex("DoctorId");
-
-                    b.HasIndex("PatientId");
 
                     b.HasIndex("WardId");
 
@@ -305,6 +229,9 @@ namespace HMS.Library.Migrations
                     b.Property<int>("ContactNo")
                         .HasColumnType("int");
 
+                    b.Property<int?>("DepartmentID")
+                        .HasColumnType("int");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -328,6 +255,8 @@ namespace HMS.Library.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("DoctorID");
+
+                    b.HasIndex("DepartmentID");
 
                     b.ToTable("Doctors");
                 });
@@ -364,6 +293,8 @@ namespace HMS.Library.Migrations
 
                     b.HasKey("EmergencyID");
 
+                    b.HasIndex("PatientId");
+
                     b.ToTable("Emergencies");
                 });
 
@@ -391,6 +322,8 @@ namespace HMS.Library.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("FollowupID");
+
+                    b.HasIndex("PatientId");
 
                     b.ToTable("Followups");
                 });
@@ -445,7 +378,12 @@ namespace HMS.Library.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
+                    b.Property<int?>("WardID")
+                        .HasColumnType("int");
+
                     b.HasKey("NurseID");
+
+                    b.HasIndex("WardID");
 
                     b.ToTable("Nurses");
                 });
@@ -560,6 +498,8 @@ namespace HMS.Library.Migrations
 
                     b.HasKey("PrescriptionID");
 
+                    b.HasIndex("PatientId");
+
                     b.ToTable("Prescribes");
                 });
 
@@ -594,6 +534,8 @@ namespace HMS.Library.Migrations
 
                     b.HasKey("ReportID");
 
+                    b.HasIndex("PatientId");
+
                     b.HasIndex("ReportTypeId");
 
                     b.ToTable("Reports");
@@ -614,7 +556,12 @@ namespace HMS.Library.Migrations
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("WardID")
+                        .HasColumnType("int");
+
                     b.HasKey("RoomID");
+
+                    b.HasIndex("WardID");
 
                     b.ToTable("Rooms");
                 });
@@ -698,6 +645,9 @@ namespace HMS.Library.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int>("InventoryItemsId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(150)
@@ -711,6 +661,9 @@ namespace HMS.Library.Migrations
                         .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
+
+                    b.Property<int>("TransactionsId")
+                        .HasColumnType("int");
 
                     b.HasKey("SupplierID");
 
@@ -735,6 +688,15 @@ namespace HMS.Library.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("DoctorID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("NurseID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("StaffID")
+                        .HasColumnType("int");
+
                     b.Property<int?>("SupplierId")
                         .HasColumnType("int");
 
@@ -742,6 +704,12 @@ namespace HMS.Library.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("TransactionId");
+
+                    b.HasIndex("DoctorID");
+
+                    b.HasIndex("NurseID");
+
+                    b.HasIndex("StaffID");
 
                     b.HasIndex("SupplierId");
 
@@ -759,7 +727,7 @@ namespace HMS.Library.Migrations
                     b.Property<int?>("NurseId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PatientId")
+                    b.Property<int?>("PatientID")
                         .HasColumnType("int");
 
                     b.Property<int?>("RoomId")
@@ -771,9 +739,7 @@ namespace HMS.Library.Migrations
 
                     b.HasKey("WardID");
 
-                    b.HasIndex("NurseId");
-
-                    b.HasIndex("RoomId");
+                    b.HasIndex("PatientID");
 
                     b.ToTable("Wards");
                 });
@@ -793,6 +759,53 @@ namespace HMS.Library.Migrations
                     b.HasKey("AppointmentTypeID");
 
                     b.ToTable("AppointmentTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            AppointmentTypeID = 1,
+                            Name = "General Consultation"
+                        },
+                        new
+                        {
+                            AppointmentTypeID = 2,
+                            Name = "Specialist Consultation"
+                        },
+                        new
+                        {
+                            AppointmentTypeID = 3,
+                            Name = "Follow-up Appointment"
+                        },
+                        new
+                        {
+                            AppointmentTypeID = 4,
+                            Name = "Maternity Appointment"
+                        },
+                        new
+                        {
+                            AppointmentTypeID = 5,
+                            Name = "Vaccination/Immunization"
+                        },
+                        new
+                        {
+                            AppointmentTypeID = 6,
+                            Name = "Surgical Consultation"
+                        },
+                        new
+                        {
+                            AppointmentTypeID = 7,
+                            Name = "Emergency Consultation"
+                        },
+                        new
+                        {
+                            AppointmentTypeID = 8,
+                            Name = "Nutritional Counseling"
+                        },
+                        new
+                        {
+                            AppointmentTypeID = 9,
+                            Name = "Lab Work or Blood Tests"
+                        });
                 });
 
             modelBuilder.Entity("HMS.Library.Types.BloodType", b =>
@@ -813,6 +826,48 @@ namespace HMS.Library.Migrations
                     b.HasKey("BloodTypeID");
 
                     b.ToTable("BloodTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            BloodTypeID = 1,
+                            Name = "A+"
+                        },
+                        new
+                        {
+                            BloodTypeID = 2,
+                            Name = "A-"
+                        },
+                        new
+                        {
+                            BloodTypeID = 3,
+                            Name = "AB+"
+                        },
+                        new
+                        {
+                            BloodTypeID = 4,
+                            Name = "AB-"
+                        },
+                        new
+                        {
+                            BloodTypeID = 5,
+                            Name = "B+"
+                        },
+                        new
+                        {
+                            BloodTypeID = 6,
+                            Name = "B-"
+                        },
+                        new
+                        {
+                            BloodTypeID = 7,
+                            Name = "O+"
+                        },
+                        new
+                        {
+                            BloodTypeID = 8,
+                            Name = "O-"
+                        });
                 });
 
             modelBuilder.Entity("HMS.Library.Types.ReportType", b =>
@@ -833,6 +888,33 @@ namespace HMS.Library.Migrations
                     b.HasKey("ReportTypeID");
 
                     b.ToTable("ReportTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            ReportTypeID = 1,
+                            Name = "Discharge Summary"
+                        },
+                        new
+                        {
+                            ReportTypeID = 2,
+                            Name = "Pathology Report"
+                        },
+                        new
+                        {
+                            ReportTypeID = 3,
+                            Name = "Laboratory Report"
+                        },
+                        new
+                        {
+                            ReportTypeID = 4,
+                            Name = "Consultation Report"
+                        },
+                        new
+                        {
+                            ReportTypeID = 5,
+                            Name = "Anesthesia Report"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -979,6 +1061,9 @@ namespace HMS.Library.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("LoginProvider")
                         .HasColumnType("nvarchar(450)");
 
@@ -988,13 +1073,7 @@ namespace HMS.Library.Migrations
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("LoginProvider", "ProviderKey");
-
-                    b.HasIndex("UserId");
+                    b.HasKey("UserId", "LoginProvider", "ProviderKey");
 
                     b.ToTable("AspNetUserLogins", (string)null);
                 });
@@ -1033,131 +1112,11 @@ namespace HMS.Library.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("PatientPrescribe", b =>
-                {
-                    b.Property<int>("PatientID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PrescribePrescriptionID")
-                        .HasColumnType("int");
-
-                    b.HasKey("PatientID", "PrescribePrescriptionID");
-
-                    b.HasIndex("PrescribePrescriptionID");
-
-                    b.ToTable("PatientPrescribe");
-                });
-
-            modelBuilder.Entity("PatientReport", b =>
-                {
-                    b.Property<int>("PatientID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ReportID")
-                        .HasColumnType("int");
-
-                    b.HasKey("PatientID", "ReportID");
-
-                    b.HasIndex("ReportID");
-
-                    b.ToTable("PatientReport");
-                });
-
-            modelBuilder.Entity("PatientWard", b =>
-                {
-                    b.Property<int>("PatientID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WardID")
-                        .HasColumnType("int");
-
-                    b.HasKey("PatientID", "WardID");
-
-                    b.HasIndex("WardID");
-
-                    b.ToTable("PatientWard");
-                });
-
-            modelBuilder.Entity("AdmissionPatient", b =>
-                {
-                    b.HasOne("HMS.Library.Models.Admission", null)
-                        .WithMany()
-                        .HasForeignKey("AdmissionID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HMS.Library.Models.Patient", null)
-                        .WithMany()
-                        .HasForeignKey("PatientID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("AppointmentPatient", b =>
-                {
-                    b.HasOne("HMS.Library.Models.Appointment", null)
-                        .WithMany()
-                        .HasForeignKey("AppointmentID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HMS.Library.Models.Patient", null)
-                        .WithMany()
-                        .HasForeignKey("PatientID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("BillingPatient", b =>
-                {
-                    b.HasOne("HMS.Library.Models.Billing", null)
-                        .WithMany()
-                        .HasForeignKey("BillingID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HMS.Library.Models.Patient", null)
-                        .WithMany()
-                        .HasForeignKey("PatientID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("DoctorPatient", b =>
                 {
                     b.HasOne("HMS.Library.Models.Doctor", null)
                         .WithMany()
                         .HasForeignKey("DoctorID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HMS.Library.Models.Patient", null)
-                        .WithMany()
-                        .HasForeignKey("PatientID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("EmergencyPatient", b =>
-                {
-                    b.HasOne("HMS.Library.Models.Emergency", null)
-                        .WithMany()
-                        .HasForeignKey("EmergencyID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HMS.Library.Models.Patient", null)
-                        .WithMany()
-                        .HasForeignKey("PatientID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("FollowupPatient", b =>
-                {
-                    b.HasOne("HMS.Library.Models.Followup", null)
-                        .WithMany()
-                        .HasForeignKey("FollowupID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1186,8 +1145,12 @@ namespace HMS.Library.Migrations
                         .WithMany()
                         .HasForeignKey("FollowupId");
 
-                    b.HasOne("HMS.Library.Models.Ward", "Ward")
+                    b.HasOne("HMS.Library.Models.Patient", "Patient")
                         .WithMany("Admission")
+                        .HasForeignKey("PatientId");
+
+                    b.HasOne("HMS.Library.Models.Ward", "Ward")
+                        .WithMany()
                         .HasForeignKey("WardId");
 
                     b.Navigation("Appointment");
@@ -1198,6 +1161,8 @@ namespace HMS.Library.Migrations
 
                     b.Navigation("Followup");
 
+                    b.Navigation("Patient");
+
                     b.Navigation("Ward");
                 });
 
@@ -1207,17 +1172,29 @@ namespace HMS.Library.Migrations
                         .WithMany("Appointment")
                         .HasForeignKey("AppointmentTypeId");
 
+                    b.HasOne("HMS.Library.Models.Department", "Department")
+                        .WithMany()
+                        .HasForeignKey("DepartmentId");
+
                     b.HasOne("HMS.Library.Models.Doctor", "Doctor")
                         .WithMany("Appointment")
                         .HasForeignKey("DoctorId");
 
-                    b.HasOne("HMS.Library.Models.Prescribe", "Prescribe")
+                    b.HasOne("HMS.Library.Models.Patient", "Patient")
                         .WithMany("Appointment")
+                        .HasForeignKey("PatientId");
+
+                    b.HasOne("HMS.Library.Models.Prescribe", "Prescribe")
+                        .WithMany()
                         .HasForeignKey("PrescribeId");
 
                     b.Navigation("AppointmentType");
 
+                    b.Navigation("Department");
+
                     b.Navigation("Doctor");
+
+                    b.Navigation("Patient");
 
                     b.Navigation("Prescribe");
                 });
@@ -1228,38 +1205,26 @@ namespace HMS.Library.Migrations
                         .WithMany()
                         .HasForeignKey("DischargeId");
 
+                    b.HasOne("HMS.Library.Models.Patient", "Patient")
+                        .WithMany("Billing")
+                        .HasForeignKey("PatientId");
+
                     b.HasOne("HMS.Library.Models.Report", "Report")
                         .WithMany()
                         .HasForeignKey("ReportId");
 
                     b.Navigation("Discharge");
 
+                    b.Navigation("Patient");
+
                     b.Navigation("Report");
                 });
 
             modelBuilder.Entity("HMS.Library.Models.Department", b =>
                 {
-                    b.HasOne("HMS.Library.Models.Admission", "Admission")
-                        .WithMany()
-                        .HasForeignKey("AdmissionId");
-
-                    b.HasOne("HMS.Library.Models.Doctor", "Doctor")
-                        .WithMany()
-                        .HasForeignKey("DoctorId");
-
-                    b.HasOne("HMS.Library.Models.Patient", "Patient")
-                        .WithMany()
-                        .HasForeignKey("PatientId");
-
                     b.HasOne("HMS.Library.Models.Ward", "Ward")
                         .WithMany()
                         .HasForeignKey("WardId");
-
-                    b.Navigation("Admission");
-
-                    b.Navigation("Doctor");
-
-                    b.Navigation("Patient");
 
                     b.Navigation("Ward");
                 });
@@ -1279,13 +1244,45 @@ namespace HMS.Library.Migrations
                     b.Navigation("Patient");
                 });
 
+            modelBuilder.Entity("HMS.Library.Models.Doctor", b =>
+                {
+                    b.HasOne("HMS.Library.Models.Department", null)
+                        .WithMany("doctors")
+                        .HasForeignKey("DepartmentID");
+                });
+
+            modelBuilder.Entity("HMS.Library.Models.Emergency", b =>
+                {
+                    b.HasOne("HMS.Library.Models.Patient", "Patient")
+                        .WithMany("Emergency")
+                        .HasForeignKey("PatientId");
+
+                    b.Navigation("Patient");
+                });
+
+            modelBuilder.Entity("HMS.Library.Models.Followup", b =>
+                {
+                    b.HasOne("HMS.Library.Models.Patient", "Patient")
+                        .WithMany("Followup")
+                        .HasForeignKey("PatientId");
+
+                    b.Navigation("Patient");
+                });
+
             modelBuilder.Entity("HMS.Library.Models.InventoryItem", b =>
                 {
                     b.HasOne("HMS.Library.Models.Supplier", "Supplier")
-                        .WithMany()
+                        .WithMany("InventoryItems")
                         .HasForeignKey("SupplierId");
 
                     b.Navigation("Supplier");
+                });
+
+            modelBuilder.Entity("HMS.Library.Models.Nurse", b =>
+                {
+                    b.HasOne("HMS.Library.Models.Ward", null)
+                        .WithMany("Nurses")
+                        .HasForeignKey("WardID");
                 });
 
             modelBuilder.Entity("HMS.Library.Models.Patient", b =>
@@ -1297,13 +1294,35 @@ namespace HMS.Library.Migrations
                     b.Navigation("BloodType");
                 });
 
+            modelBuilder.Entity("HMS.Library.Models.Prescribe", b =>
+                {
+                    b.HasOne("HMS.Library.Models.Patient", "Patient")
+                        .WithMany("Prescribe")
+                        .HasForeignKey("PatientId");
+
+                    b.Navigation("Patient");
+                });
+
             modelBuilder.Entity("HMS.Library.Models.Report", b =>
                 {
+                    b.HasOne("HMS.Library.Models.Patient", "Patient")
+                        .WithMany("Report")
+                        .HasForeignKey("PatientId");
+
                     b.HasOne("HMS.Library.Types.ReportType", "ReportType")
                         .WithMany("Report")
                         .HasForeignKey("ReportTypeId");
 
+                    b.Navigation("Patient");
+
                     b.Navigation("ReportType");
+                });
+
+            modelBuilder.Entity("HMS.Library.Models.Room", b =>
+                {
+                    b.HasOne("HMS.Library.Models.Ward", null)
+                        .WithMany("Rooms")
+                        .HasForeignKey("WardID");
                 });
 
             modelBuilder.Entity("HMS.Library.Models.Shift", b =>
@@ -1329,26 +1348,36 @@ namespace HMS.Library.Migrations
 
             modelBuilder.Entity("HMS.Library.Models.Transaction", b =>
                 {
-                    b.HasOne("HMS.Library.Models.Supplier", "Supplier")
+                    b.HasOne("HMS.Library.Models.Doctor", "Doctor")
                         .WithMany()
+                        .HasForeignKey("DoctorID");
+
+                    b.HasOne("HMS.Library.Models.Nurse", "Nurse")
+                        .WithMany()
+                        .HasForeignKey("NurseID");
+
+                    b.HasOne("HMS.Library.Models.Staff", "Staff")
+                        .WithMany()
+                        .HasForeignKey("StaffID");
+
+                    b.HasOne("HMS.Library.Models.Supplier", "Supplier")
+                        .WithMany("Transactions")
                         .HasForeignKey("SupplierId");
+
+                    b.Navigation("Doctor");
+
+                    b.Navigation("Nurse");
+
+                    b.Navigation("Staff");
 
                     b.Navigation("Supplier");
                 });
 
             modelBuilder.Entity("HMS.Library.Models.Ward", b =>
                 {
-                    b.HasOne("HMS.Library.Models.Nurse", "Nurse")
-                        .WithMany()
-                        .HasForeignKey("NurseId");
-
-                    b.HasOne("HMS.Library.Models.Room", "Room")
-                        .WithMany()
-                        .HasForeignKey("RoomId");
-
-                    b.Navigation("Nurse");
-
-                    b.Navigation("Room");
+                    b.HasOne("HMS.Library.Models.Patient", null)
+                        .WithMany("Ward")
+                        .HasForeignKey("PatientID");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1402,49 +1431,9 @@ namespace HMS.Library.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PatientPrescribe", b =>
+            modelBuilder.Entity("HMS.Library.Models.Department", b =>
                 {
-                    b.HasOne("HMS.Library.Models.Patient", null)
-                        .WithMany()
-                        .HasForeignKey("PatientID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HMS.Library.Models.Prescribe", null)
-                        .WithMany()
-                        .HasForeignKey("PrescribePrescriptionID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("PatientReport", b =>
-                {
-                    b.HasOne("HMS.Library.Models.Patient", null)
-                        .WithMany()
-                        .HasForeignKey("PatientID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HMS.Library.Models.Report", null)
-                        .WithMany()
-                        .HasForeignKey("ReportID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("PatientWard", b =>
-                {
-                    b.HasOne("HMS.Library.Models.Patient", null)
-                        .WithMany()
-                        .HasForeignKey("PatientID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HMS.Library.Models.Ward", null)
-                        .WithMany()
-                        .HasForeignKey("WardID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("doctors");
                 });
 
             modelBuilder.Entity("HMS.Library.Models.Doctor", b =>
@@ -1452,14 +1441,37 @@ namespace HMS.Library.Migrations
                     b.Navigation("Appointment");
                 });
 
-            modelBuilder.Entity("HMS.Library.Models.Prescribe", b =>
+            modelBuilder.Entity("HMS.Library.Models.Patient", b =>
                 {
+                    b.Navigation("Admission");
+
                     b.Navigation("Appointment");
+
+                    b.Navigation("Billing");
+
+                    b.Navigation("Emergency");
+
+                    b.Navigation("Followup");
+
+                    b.Navigation("Prescribe");
+
+                    b.Navigation("Report");
+
+                    b.Navigation("Ward");
+                });
+
+            modelBuilder.Entity("HMS.Library.Models.Supplier", b =>
+                {
+                    b.Navigation("InventoryItems");
+
+                    b.Navigation("Transactions");
                 });
 
             modelBuilder.Entity("HMS.Library.Models.Ward", b =>
                 {
-                    b.Navigation("Admission");
+                    b.Navigation("Nurses");
+
+                    b.Navigation("Rooms");
                 });
 
             modelBuilder.Entity("HMS.Library.Types.AppointmentType", b =>

@@ -17,17 +17,14 @@ namespace HMS.Library.Models
 		public string? WardName { get; set; }
 		public int? RoomId { get; set; }
 		public int? NurseId { get; set; }
-		public int? PatientId { get; set; }
 
 
 
         //Navigation Property
-        public virtual ICollection<Admission>? Admission { get; set; } = new List<Admission>();
+        public ICollection<Nurse>? Nurses { get; set; } = new List<Nurse>();
 
-        public virtual ICollection<Patient>? Patient { get; set; } = new List<Patient>();
+        public ICollection<Room>? Rooms { get; set; } = new List<Room>();
 
-        public virtual Nurse? Nurse { get; set; }
 
-        public virtual Room? Room { get; set; }
 	}
 }

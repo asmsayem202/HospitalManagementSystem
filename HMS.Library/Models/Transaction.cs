@@ -29,6 +29,9 @@ namespace HMS.Library.Models
 
         //Navigation Property
         public virtual Supplier? Supplier { get; set; }		
+        public virtual Doctor? Doctor { get; set; }		
+        public virtual Nurse? Nurse { get; set; }		
+        public virtual Staff? Staff { get; set; }		
 
 	}
 }

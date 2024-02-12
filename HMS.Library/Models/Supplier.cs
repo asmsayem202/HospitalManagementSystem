@@ -29,6 +29,14 @@ namespace HMS.Library.Models
 		[DataType(DataType.MultilineText)]
 		[StringLength(250)]
 		public string SupplierAddress { get; set; }
+		public int InventoryItemsId { get; set; }
+		public int TransactionsId { get; set; }
+
+
+		//Navigation Property
+		public ICollection<InventoryItem>? InventoryItems { get; set; } = new List<InventoryItem>();
+		public ICollection<Transaction>? Transactions { get; set; } = new List<Transaction>();
+
 
 	}
 }

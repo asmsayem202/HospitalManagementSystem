@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HMS.Library.Models;
 using HMS.Library.Types;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
@@ -13,34 +14,169 @@ namespace HMS.Library.DAL
 {
 	public class HMSdb : IdentityDbContext
 	{
-        public DbSet<Admission> Admissions { get; set; }
-        public DbSet<Appointment> Appointments { get; set; }
-        public DbSet<Billing> Billings { get; set; }
-        public DbSet<Department> Departments { get; set; }
-        public DbSet<Discharge> Discharges { get; set; }
-        public DbSet<Doctor> Doctors { get; set; }
-        public DbSet<Emergency> Emergencies { get; set; }
-        public DbSet<Followup> Followups { get; set; }
-        public DbSet<InventoryItem> InventoryItems { get; set; }
-        public DbSet<Nurse> Nurses { get; set; }
-        public DbSet<Patient> Patients { get; set; }
-        public DbSet<Prescribe> Prescribes { get; set; }
-        public DbSet<Report> Reports { get; set; }
-        public DbSet<Room> Rooms { get; set; }
-        public DbSet<Shift> Shifts { get; set; }
-        public DbSet<Staff> Staffs { get; set; }
-        public DbSet<Supplier> Suppliers { get; set; }
-        public DbSet<Transaction> Transactions { get; set; }
-        public DbSet<Ward> Wards { get; set; }
-        public DbSet<ReportType> ReportTypes { get; set; }
-        public DbSet<BloodType> BloodTypes { get; set; }
-        public DbSet<AppointmentType> AppointmentTypes { get; set; }
+		public DbSet<Admission> Admissions { get; set; }
+		public DbSet<Appointment> Appointments { get; set; }
+		public DbSet<Billing> Billings { get; set; }
+		public DbSet<Department> Departments { get; set; }
+		public DbSet<Discharge> Discharges { get; set; }
+		public DbSet<Doctor> Doctors { get; set; }
+		public DbSet<Emergency> Emergencies { get; set; }
+		public DbSet<Followup> Followups { get; set; }
+		public DbSet<InventoryItem> InventoryItems { get; set; }
+		public DbSet<Nurse> Nurses { get; set; }
+		public DbSet<Patient> Patients { get; set; }
+		public DbSet<Prescribe> Prescribes { get; set; }
+		public DbSet<Report> Reports { get; set; }
+		public DbSet<Room> Rooms { get; set; }
+		public DbSet<Shift> Shifts { get; set; }
+		public DbSet<Staff> Staffs { get; set; }
+		public DbSet<Supplier> Suppliers { get; set; }
+		public DbSet<Transaction> Transactions { get; set; }
+		public DbSet<Ward> Wards { get; set; }
+		public DbSet<ReportType> ReportTypes { get; set; }
+		public DbSet<BloodType> BloodTypes { get; set; }
+		public DbSet<AppointmentType> AppointmentTypes { get; set; }
 
 
-        public HMSdb(DbContextOptions opt) : base(opt)
-        {
-            
-        }
-		
+		public HMSdb(DbContextOptions opt) : base(opt)
+		{
+
+		}
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			base.OnModelCreating(modelBuilder);
+
+			modelBuilder.Entity<IdentityUserLogin<string>>()
+			.HasKey(u => new { u.UserId, u.LoginProvider, u.ProviderKey });
+
+			modelBuilder.Entity<IdentityUserRole<string>>()
+			.HasKey(r => new { r.UserId, r.RoleId });
+
+
+			modelBuilder.Entity<BloodType>().HasData(new BloodType[]
+			{
+				new BloodType
+				{
+					BloodTypeID = 1,
+					Name = "A+"
+				},
+				new BloodType
+				{
+					BloodTypeID = 2,
+					Name = "A-"
+				},
+				new BloodType
+				{
+					BloodTypeID = 3,
+					Name = "AB+"
+				},
+				new BloodType
+				{
+					BloodTypeID = 4,
+					Name = "AB-"
+				},
+				new BloodType
+				{
+					BloodTypeID = 5,
+					Name = "B+"
+				},
+				new BloodType
+				{
+					BloodTypeID = 6,
+					Name = "B-"
+				},
+				new BloodType
+				{
+					BloodTypeID = 7,
+					Name = "O+"
+				},
+				new BloodType
+				{
+					BloodTypeID = 8,
+					Name = "O-"
+				}
+			});
+
+			modelBuilder.Entity<ReportType>().HasData(new ReportType[]
+			{
+				new ReportType
+				{
+					ReportTypeID = 1,
+					Name = "Discharge Summary"
+				},
+				new ReportType
+				{
+					ReportTypeID = 2,
+					Name = "Pathology Report"
+				},
+				new ReportType
+				{
+					ReportTypeID = 3,
+					Name = "Laboratory Report"
+				},
+				new ReportType
+				{
+					ReportTypeID = 4,
+					Name = "Consultation Report"
+				},
+				new ReportType
+				{
+					ReportTypeID = 5,
+					Name = "Anesthesia Report"
+				}
+
+			});
+
+			modelBuilder.Entity<AppointmentType>().HasData(new AppointmentType[]
+			{
+				new AppointmentType
+				{
+					AppointmentTypeID = 1,
+					Name = "General Consultation"
+				},
+				new AppointmentType
+				{
+					AppointmentTypeID = 2,
+					Name = "Specialist Consultation"
+				},
+				new AppointmentType
+				{
+					AppointmentTypeID = 3,
+					Name = "Follow-up Appointment"
+				},
+				new AppointmentType
+				{
+					AppointmentTypeID = 4,
+					Name = "Maternity Appointment"
+				},
+				new AppointmentType
+				{
+					AppointmentTypeID = 5,
+					Name = "Vaccination/Immunization"
+				},
+				new AppointmentType
+				{
+					AppointmentTypeID = 6,
+					Name = "Surgical Consultation"
+				},
+				new AppointmentType
+				{
+					AppointmentTypeID = 7,
+					Name = "Emergency Consultation"
+				},
+				new AppointmentType
+				{
+					AppointmentTypeID = 8,
+					Name = "Nutritional Counseling"
+				},
+				new AppointmentType
+				{
+					AppointmentTypeID = 9,
+					Name = "Lab Work or Blood Tests"
+				}
+
+			});
+		}
+
 	}
 }

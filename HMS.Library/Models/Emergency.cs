@@ -16,7 +16,6 @@ namespace HMS.Library.Models
 		public int EmergencyID { get; set; }
 		public int? PatientId { get; set; }
 
-
 		[StringLength(50)]
 		public string? Location { get; set; }
 		[DataType(DataType.DateTime)]
@@ -27,7 +26,7 @@ namespace HMS.Library.Models
 		public string Status { get; set; }
 
         //Navigation property
-        public virtual ICollection<Patient>? Patient { get; set; } = new List<Patient>();
+        public Patient? Patient { get; set; }
 
 	}
 }

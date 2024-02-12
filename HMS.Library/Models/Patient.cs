@@ -48,25 +48,25 @@ namespace HMS.Library.Models
 
 
         //Navigation property
-        public virtual BloodType? BloodType { get; set; }
+        public BloodType? BloodType { get; set; }
 
-        public virtual ICollection<Doctor>? Doctor { get; set; } = new List<Doctor>();
+        public ICollection<Doctor>? Doctor { get; set; } = new List<Doctor>();
 
-        public virtual ICollection<Emergency>? Emergency { get; set; } = new List<Emergency>();
+        public ICollection<Emergency>? Emergency { get; set; } = new List<Emergency>();
 
-        public virtual ICollection<Followup>? Followup { get; set; } = new List<Followup>();
+        public ICollection<Followup>? Followup { get; set; } = new List<Followup>();
 
-        public virtual ICollection<Prescribe>? Prescribe { get; set; } = new List<Prescribe>();
+        public ICollection<Prescribe>? Prescribe { get; set; } = new List<Prescribe>();
 
-        public virtual ICollection<Report>? Report { get; set; } = new List<Report>();
+        public ICollection<Report>? Report { get; set; } = new List<Report>();
 
-        public virtual ICollection<Ward>? Ward { get; set; } = new List<Ward>();
+        public ICollection<Ward>? Ward { get; set; } = new List<Ward>();
 
-        public virtual ICollection<Admission>? Admission { get; set; } = new List<Admission>();
+        public ICollection<Admission>? Admission { get; set; } = new List<Admission>();
 
-        public virtual ICollection<Appointment>? Appointment { get; set; } = new List<Appointment>();
+        public ICollection<Appointment>? Appointment { get; set; } = new List<Appointment>();
 
-        public virtual ICollection<Billing>? Billing { get; set; } = new List<Billing>();
+        public ICollection<Billing>? Billing { get; set; } = new List<Billing>();
 
 	}
 }

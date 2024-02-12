@@ -16,22 +16,24 @@ namespace HMS.Library.Models
 		public int AppointmentID { get; set; }
 		public int? PatientId { get; set; }
 		public int? DoctorId { get; set; }
+		public int? DepartmentId { get; set; }
+
+		[DataType(DataType.DateTime)]
+		public DateTime AppointmentDate { get; set; }
 
 		//(e.g., Consultation, Procedure, Follow-up)
 		public int? AppointmentTypeId { get; set; }
-
-		//(e.g., Scheduled, Confirmed, Completed)
-		public string? Status { get; set; }
 		public int? PrescribeId { get; set; }
-
+		
 
         //Navigation Property
-        public virtual AppointmentType? AppointmentType { get; set; }
+        public AppointmentType? AppointmentType { get; set; }
 
-        public virtual ICollection<Patient>? Patient { get; set; } = new List<Patient>();
+        public Patient? Patient { get; set; }
 
-        public virtual Doctor? Doctor { get; set; }
+        public Doctor? Doctor { get; set; }
+        public Department? Department { get; set; }
 
-        public virtual Prescribe? Prescribe { get; set; }
+        public Prescribe? Prescribe { get; set; }
 	}
 }

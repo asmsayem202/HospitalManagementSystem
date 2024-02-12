@@ -23,12 +23,14 @@ namespace HMS.Library.Models
 		public int? ReportId { get; set; }
 		public int? DischargeId { get; set; }
 
+
+
         //Navigation Property
-        public virtual ICollection<Patient>? Patient { get; set; } = new List<Patient>();
+        public Patient? Patient { get; set; }
 
-        public virtual Report? Report { get; set; }
+        public Report? Report { get; set; }
 
-        public virtual Discharge? Discharge { get; set; }
+        public Discharge? Discharge { get; set; }
 
 
 	}
