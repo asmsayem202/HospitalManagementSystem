@@ -14,9 +14,9 @@ namespace HMS.Library.Types
 	public class BloodType
 	{
         [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int BloodTypeID { get; set; }
+        public int BloodTypeId { get; set; }
         public string Name { get; set; }
-		public int? PatientId { get; set; }
+		public int? PatientID { get; set; }
 
         //Navigation property
 		public ICollection<Patient>? Patient { get; set; } = new List<Patient>();

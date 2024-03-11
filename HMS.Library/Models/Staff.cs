@@ -11,10 +11,12 @@ namespace HMS.Library.Models
 	public class Staff
 	{
 		[Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		public int StaffID { get; set; }
+		public int StaffId { get; set; }
 		[Required, StringLength(150)]
 		public string StaffName { get; set; }
 		public string? Address { get; set; }
-		public string ContactInfo { get; set; }
+		public string ContactNo { get; set; }
+		[EmailAddress]
+		public string Email { get; set; }
 	}
 }

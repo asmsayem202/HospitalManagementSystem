@@ -12,16 +12,16 @@ namespace HMS.Library.Models
 	public class Department
 	{
 		[Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		public int DepartmentID { get; set; }
+		public int DepartmentId { get; set; }
 		[Required]
 		public string DepartmentName { get; set; }
-		public int? DoctorId { get; set; }
-		public int? WardId { get; set; }
+		public int? DoctorID { get; set; }
+		public int? WardID { get; set; }
 
         //Navigation Property
         
 
-		public ICollection<Doctor>? doctors { get; set; } = new List<Doctor>();
+		public ICollection<Doctor>? Doctors { get; set; } = new List<Doctor>();
 		public Ward? Ward { get; set; }
 	}
 }

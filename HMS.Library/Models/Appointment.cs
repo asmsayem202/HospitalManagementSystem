@@ -13,24 +13,24 @@ namespace HMS.Library.Models
 	public class Appointment
 	{
 		[Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		public int AppointmentID { get; set; }
-		public int? PatientId { get; set; }
-		public int? DoctorId { get; set; }
-		public int? DepartmentId { get; set; }
+		public int AppointmentId { get; set; }
+		public int? PatientID { get; set; }
+		public int? DoctorID { get; set; }
+		public int? DepartmentID { get; set; }
 
 		[DataType(DataType.DateTime)]
 		public DateTime AppointmentDate { get; set; }
 
 		//(e.g., Consultation, Procedure, Follow-up)
-		public int? AppointmentTypeId { get; set; }
-		public int? PrescribeId { get; set; }
+		public int? AppointmentTypeID { get; set; }
+		public int? PrescribeID { get; set; }
 		
 
         //Navigation Property
         public AppointmentType? AppointmentType { get; set; }
 
         public Patient? Patient { get; set; }
-
+ 
         public Doctor? Doctor { get; set; }
         public Department? Department { get; set; }
 

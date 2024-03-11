@@ -13,12 +13,12 @@ namespace HMS.Library.Types
 	public class AppointmentType
 	{
 		[Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		public int AppointmentTypeID { get; set; }
+		public int AppointmentTypeId { get; set; }
 		public string Name { get; set; }
+		public int? AppointmentID { get; set; }
 
-
-        //Navigation property
-        public ICollection<Appointment>? Appointment { get; set; } = new List<Appointment>();
+		//Navigation property
+		public ICollection<Appointment>? Appointment { get; set; } = new List<Appointment>();
 
     }
 }

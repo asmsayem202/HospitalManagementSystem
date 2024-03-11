@@ -14,7 +14,7 @@ namespace HMS.Library.Models
 	public class Patient
 	{
 		[Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		public int PatientID { get; set; }
+		public int PatientId { get; set; }
 
 		[Required, StringLength(150)]
 		public string Name { get; set; }
@@ -22,27 +22,25 @@ namespace HMS.Library.Models
 		[DataType(DataType.Date)]
 		public DateOnly Dob { get; set; }
 
-		public string Gender { get; set; }
+		public Genders Gender { get; set; }
 		public int Age { get; set; }
 		public int ContactNo { get; set; }
 
 		[EmailAddress]
 		public string? Email { get; set; }
 		public string? Address { get; set; }
-		public int? BloodTypeId { get; set; }
+		public int? BloodTypeID { get; set; }
 		public string? InsuranceInformation { get; set; }
 
 		//(e.g., Active, Discharged, Deceased)
 		public string Status { get; set; }
-		public int? AdmissionId { get; set; }
-		public int? AppointmentId { get; set; }
-		public int? BillingId { get; set; }
-		public int? DoctorId { get; set; }
-		public int? EmergencyId { get; set; }
-		public int? FollowupId { get; set; }
-		public int? PrescribeId { get; set; }
-		public int? ReportId { get; set; }
-		public int? WardId { get; set; }
+		public int? AppointmentID { get; set; }
+		public int? BillingID { get; set; }
+		public int? DoctorID { get; set; }
+		public int? EmergencyID { get; set; }
+		public int? FollowupID { get; set; }
+		public int? ReportID { get; set; }
+		public int? WardID { get; set; }
 
 
 
@@ -68,5 +66,12 @@ namespace HMS.Library.Models
 
         public ICollection<Billing>? Billing { get; set; } = new List<Billing>();
 
+	}
+
+	public enum Genders
+	{
+		Male,
+		Female,
+		Other
 	}
 }

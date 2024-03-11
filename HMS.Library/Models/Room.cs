@@ -11,11 +11,12 @@ namespace HMS.Library.Models
 	public class Room
 	{
 		[Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		public int RoomID { get; set; }
+		public int RoomId { get; set; }
 		[Required]
 		public string RoomNumber { get; set; }
 		public string? Status { get; set; } //Occupied,Availabe
 
-		
+		public int? WardId { get; set; }
+
 	}
 }

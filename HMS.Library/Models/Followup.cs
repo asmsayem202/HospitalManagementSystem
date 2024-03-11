@@ -13,15 +13,14 @@ namespace HMS.Library.Models
 	{
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		public int FollowupID { get; set; }
-		public int? PatientId { get; set; }
+		public int FollowupId { get; set; }
+		public int? PatientID { get; set; }
 
-
-		[Required]
-		[StringLength(50)]
-		public string Reason { get; set; }
+		public string? Reason { get; set; }
 
 		public string? Notes { get; set; }
+
+		[Required]
 		public string Status { get; set; }
 
         //Navigation Property

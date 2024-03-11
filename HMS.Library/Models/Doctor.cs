@@ -13,7 +13,7 @@ namespace HMS.Library.Models
 	public class Doctor
 	{
 		[Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		public int DoctorID { get; set; }
+		public int DoctorId { get; set; }
 
 		[Required, StringLength(150)]
 		public string Name { get; set; }
@@ -26,8 +26,9 @@ namespace HMS.Library.Models
 		//(e.g., Sat-Thu 6-9)
 		public string? Schedule { get; set; }
 		public string? Image { get; set; }
-		public int? PatientId { get; set; }
-		public int? AppointmentId { get; set; }
+		public int? PatientID { get; set; }
+		public int? AppointmentID { get; set; }
+		public int? DepartmentID { get; set; }
 
         //[NotMapped]
         //public IFormFile? ImageFile { get; set; }
@@ -35,6 +36,7 @@ namespace HMS.Library.Models
 
 
         //Navigation Property
+		public Department? Departments { get; set; }
         public ICollection<Patient>? Patient { get; set; } = new List<Patient>();
 
         public ICollection<Appointment>? Appointment { get; set; } = new List<Appointment>();

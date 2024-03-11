@@ -30,21 +30,31 @@ namespace HMS.Api
 				//options => options.SignIn.RequireConfirmedAccount = true
 				).AddEntityFrameworkStores<HMSdb>();
 
-			builder.Services.AddControllers()
-				//	.AddJsonOptions(options =>
-				//{
 
-				//	options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
-				//	options.JsonSerializerOptions.PropertyNamingPolicy = null;
-				//})
-
-				;
-
-
-			builder.Services.Configure<JsonOptions>(opt =>
+			builder.Services.AddControllers().AddJsonOptions(options =>
 			{
-				opt.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+				options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 			});
+
+
+
+
+
+			//builder.Services.AddControllers()
+			//	//	.AddJsonOptions(options =>
+			//	//{
+
+			//	//	options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+			//	//	options.JsonSerializerOptions.PropertyNamingPolicy = null;
+			//	//})
+			//	;
+
+
+			//builder.Services.Configure<JsonOptions>(opt =>
+			//{
+			//	opt.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+			//});
+
 
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();

@@ -12,15 +12,15 @@ namespace HMS.Library.Models
 	public class Shift
 	{
 		[Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		public int ShiftID { get; set; }
+		public int ShiftId { get; set; }
 		[Required]
-		public string ShiftName { get; set; } //Morning,Afternoon,Night
+		public ShiftSlot ShiftName { get; set; } //Morning,Afternoon,Night
 		public TimeOnly StartTime { get; set; }
 		public TimeOnly EndTime { get; set; }
 		public bool ShiftStatus { get; set; } //Active or Inactive
-		public int? StaffId { get; set; }
-		public int? NurseId { get; set; }
-		public int? DoctorId { get; set; }
+		public int? StaffID { get; set; }
+		public int? NurseID { get; set; }
+		public int? DoctorID { get; set; }
 
 
         //Navigation Property
@@ -29,5 +29,10 @@ namespace HMS.Library.Models
         public Nurse? Nurse { get; set; }
 
         public Doctor? Doctor { get; set; }
+	}
+
+	public enum ShiftSlot
+	{
+		Morning, Afternoon, Night
 	}
 }

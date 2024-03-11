@@ -13,10 +13,10 @@ namespace HMS.Library.Types
 	public class ReportType
 	{
 		[Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		public int ReportTypeID { get; set; }
+		public int ReportTypeId { get; set; }
 
 		public string Name { get; set; }
-		public int? ReportId { get; set; }
+		public int? ReportID { get; set; }
 
         //Navigation property
         public ICollection<Report>? Report { get; set; } = new List<Report>();

@@ -24,8 +24,10 @@ namespace HMS.Library.Models
 		[Required]
 		public decimal Amount { get; set; }
 
-		public int AssociatedItemId { get; set; }
-		public int? SupplierId { get; set; }
+		public int? SupplierID { get; set; }
+		public int? DoctorID { get; set; }
+		public int? NurseID { get; set; }
+		public int? StaffID { get; set; }
 
         //Navigation Property
         public virtual Supplier? Supplier { get; set; }		

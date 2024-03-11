@@ -12,7 +12,7 @@ namespace HMS.Library.Models
 	{
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		public int SupplierID { get; set; }
+		public int SupplierId { get; set; }
 
 		[Required]
 		[StringLength(150)]
@@ -29,8 +29,8 @@ namespace HMS.Library.Models
 		[DataType(DataType.MultilineText)]
 		[StringLength(250)]
 		public string SupplierAddress { get; set; }
-		public int InventoryItemsId { get; set; }
-		public int TransactionsId { get; set; }
+		public int InventoryItemsID { get; set; }
+		public int TransactionsID { get; set; }
 
 
 		//Navigation Property

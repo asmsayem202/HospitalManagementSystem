@@ -12,11 +12,9 @@ namespace HMS.Library.Models
 	public class Ward
 	{
 		[Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		public int WardID { get; set; }
+		public int WardId { get; set; }
 		[Required]
 		public string? WardName { get; set; }
-		public int? RoomId { get; set; }
-		public int? NurseId { get; set; }
 
 
 

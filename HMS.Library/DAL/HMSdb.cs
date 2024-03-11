@@ -57,42 +57,42 @@ namespace HMS.Library.DAL
 			{
 				new BloodType
 				{
-					BloodTypeID = 1,
+					BloodTypeId = 1,
 					Name = "A+"
 				},
 				new BloodType
 				{
-					BloodTypeID = 2,
+					BloodTypeId = 2,
 					Name = "A-"
 				},
 				new BloodType
 				{
-					BloodTypeID = 3,
+					BloodTypeId = 3,
 					Name = "AB+"
 				},
 				new BloodType
 				{
-					BloodTypeID = 4,
+					BloodTypeId = 4,
 					Name = "AB-"
 				},
 				new BloodType
 				{
-					BloodTypeID = 5,
+					BloodTypeId = 5,
 					Name = "B+"
 				},
 				new BloodType
 				{
-					BloodTypeID = 6,
+					BloodTypeId = 6,
 					Name = "B-"
 				},
 				new BloodType
 				{
-					BloodTypeID = 7,
+					BloodTypeId = 7,
 					Name = "O+"
 				},
 				new BloodType
 				{
-					BloodTypeID = 8,
+					BloodTypeId = 8,
 					Name = "O-"
 				}
 			});
@@ -101,27 +101,27 @@ namespace HMS.Library.DAL
 			{
 				new ReportType
 				{
-					ReportTypeID = 1,
+					ReportTypeId = 1,
 					Name = "Discharge Summary"
 				},
 				new ReportType
 				{
-					ReportTypeID = 2,
+					ReportTypeId = 2,
 					Name = "Pathology Report"
 				},
 				new ReportType
 				{
-					ReportTypeID = 3,
+					ReportTypeId = 3,
 					Name = "Laboratory Report"
 				},
 				new ReportType
 				{
-					ReportTypeID = 4,
+					ReportTypeId = 4,
 					Name = "Consultation Report"
 				},
 				new ReportType
 				{
-					ReportTypeID = 5,
+					ReportTypeId = 5,
 					Name = "Anesthesia Report"
 				}
 
@@ -131,47 +131,47 @@ namespace HMS.Library.DAL
 			{
 				new AppointmentType
 				{
-					AppointmentTypeID = 1,
+					AppointmentTypeId = 1,
 					Name = "General Consultation"
 				},
 				new AppointmentType
 				{
-					AppointmentTypeID = 2,
+					AppointmentTypeId = 2,
 					Name = "Specialist Consultation"
 				},
 				new AppointmentType
 				{
-					AppointmentTypeID = 3,
+					AppointmentTypeId = 3,
 					Name = "Follow-up Appointment"
 				},
 				new AppointmentType
 				{
-					AppointmentTypeID = 4,
+					AppointmentTypeId = 4,
 					Name = "Maternity Appointment"
 				},
 				new AppointmentType
 				{
-					AppointmentTypeID = 5,
+					AppointmentTypeId = 5,
 					Name = "Vaccination/Immunization"
 				},
 				new AppointmentType
 				{
-					AppointmentTypeID = 6,
+					AppointmentTypeId = 6,
 					Name = "Surgical Consultation"
 				},
 				new AppointmentType
 				{
-					AppointmentTypeID = 7,
+					AppointmentTypeId = 7,
 					Name = "Emergency Consultation"
 				},
 				new AppointmentType
 				{
-					AppointmentTypeID = 8,
+					AppointmentTypeId = 8,
 					Name = "Nutritional Counseling"
 				},
 				new AppointmentType
 				{
-					AppointmentTypeID = 9,
+					AppointmentTypeId = 9,
 					Name = "Lab Work or Blood Tests"
 				}
 

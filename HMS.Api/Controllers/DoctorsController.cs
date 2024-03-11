@@ -9,11 +9,13 @@ using HMS.Library.DAL;
 using HMS.Library.Models;
 using Microsoft.Extensions.Hosting;
 using HMS.Api.ModelsData;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HMS.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class DoctorsController : ControllerBase
     {
         private readonly HMSdb _context;
@@ -75,7 +77,7 @@ namespace HMS.Api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutDoctor(int id, DoctorData doctorData)
         {
-            if (id != doctorData.DoctorID)
+            if (id != doctorData.DoctorId)
             {
                 return BadRequest();
             }
@@ -144,7 +146,7 @@ namespace HMS.Api.Controllers
             _context.Doctors.Add(doctorData);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDoctor", new { id = doctorData.DoctorID }, doctorData);
+            return CreatedAtAction("GetDoctor", new { id = doctorData.DoctorId }, doctorData);
         }
 
         // DELETE: api/Doctors/5
@@ -165,7 +167,7 @@ namespace HMS.Api.Controllers
 
         private bool DoctorExists(int id)
         {
-            return _context.Doctors.Any(e => e.DoctorID == id);
+            return _context.Doctors.Any(e => e.DoctorId == id);
         }
     }
 }

@@ -13,8 +13,8 @@ namespace HMS.Library.Models
 	{
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		public int PrescriptionID { get; set; }
-		public int? PatientId { get; set; }
+		public int PrescriptionId { get; set; }
+		public int? PatientID { get; set; }
 
 
 		[Required]
@@ -29,7 +29,7 @@ namespace HMS.Library.Models
 		[DataType(DataType.DateTime)]
 
 		public DateTime EndDate { get; set; }
-		public string Status { get; set; }
+		public string? Status { get; set; }
 
 
         //Navigation Property

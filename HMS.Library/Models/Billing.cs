@@ -12,16 +12,16 @@ namespace HMS.Library.Models
 	public class Billing
 	{
 		[Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		public int BillingID { get; set; }
-		public int? PatientId { get; set; }
+		public int BillingId { get; set; }
+		public int? PatientID { get; set; }
 
 
 		[DataType(DataType.DateTime)]
 		public DateTime DateTime { get; set; }
 
 		public decimal Amount { get; set; }
-		public int? ReportId { get; set; }
-		public int? DischargeId { get; set; }
+		public int? ReportID { get; set; }
+		public int? DischargeID { get; set; }
 
 
 

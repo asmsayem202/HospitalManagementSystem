@@ -14,15 +14,15 @@ namespace HMS.Library.Models
 	{
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		public int ReportID { get; set; }
-		public int? PatientId { get; set; }
+		public int ReportId { get; set; }
+		public int? PatientID { get; set; }
 
 
 		public string Title { get; set; }
 
 		[DataType(DataType.Date)]
 		public DateTime? CreationDate { get; set; }
-		public int? ReportTypeId { get; set; }
+		public int? ReportTypeID { get; set; }
 
 		public string ReportAuthor { get; set; }
 		public string ReportContent { get; set; }
