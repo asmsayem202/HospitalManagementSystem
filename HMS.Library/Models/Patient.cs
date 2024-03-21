@@ -20,11 +20,11 @@ namespace HMS.Library.Models
 		public string Name { get; set; }
 
 		[DataType(DataType.Date)]
-		public DateOnly Dob { get; set; }
+		public DateOnly? Dob { get; set; }
 
-		public Genders Gender { get; set; }
-		public int Age { get; set; }
-		public int ContactNo { get; set; }
+		public Genders Gender { get; set; } = Genders.Other;
+		public int? Age { get; set; }
+		public string ContactNo { get; set; }
 
 		[EmailAddress]
 		public string? Email { get; set; }
@@ -33,7 +33,7 @@ namespace HMS.Library.Models
 		public string? InsuranceInformation { get; set; }
 
 		//(e.g., Active, Discharged, Deceased)
-		public string Status { get; set; }
+		public string? Status { get; set; }
 		public int? AppointmentID { get; set; }
 		public int? BillingID { get; set; }
 		public int? DoctorID { get; set; }
@@ -70,8 +70,9 @@ namespace HMS.Library.Models
 
 	public enum Genders
 	{
+		Other,
 		Male,
-		Female,
-		Other
+		Female
+		
 	}
 }

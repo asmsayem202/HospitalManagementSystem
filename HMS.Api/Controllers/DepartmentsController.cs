@@ -26,14 +26,14 @@ namespace HMS.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Department>>> GetDepartments()
         {
-            return await _context.Departments.Include(i => i.doctors).ToListAsync();
+            return await _context.Departments.Include(i => i.Doctors).ToListAsync();
 		}
 
         // GET: api/Departments/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Department>> GetDepartment(int id)
         {
-            var department = await _context.Departments.Include(d=>d.doctors).FirstOrDefaultAsync(m => m.DepartmentId == id);
+            var department = await _context.Departments.Include(d=>d.Doctors).FirstOrDefaultAsync(m => m.DepartmentId == id);
 
 			if (department == null)
             {
@@ -59,7 +59,7 @@ namespace HMS.Api.Controllers
             {
 				_context.Update(department);
 
-				var itemsIdList = department.doctors.Select(d => d.DoctorId).ToList();
+				var itemsIdList = department.Doctors.Select(d => d.DoctorId).ToList();
 
 				var delItems = await _context.Doctors.Where(i => i.DoctorId == id).Where(i => !itemsIdList.Contains(i.DoctorId)).ToListAsync();
 

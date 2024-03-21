@@ -30,12 +30,10 @@ namespace HMS.Library.Models
 		[StringLength(250)]
 		public string SupplierAddress { get; set; }
 		public int InventoryItemsID { get; set; }
-		public int TransactionsID { get; set; }
 
 
 		//Navigation Property
 		public ICollection<InventoryItem>? InventoryItems { get; set; } = new List<InventoryItem>();
-		public ICollection<Transaction>? Transactions { get; set; } = new List<Transaction>();
 
 
 	}

@@ -32,6 +32,7 @@ namespace HMS.Library.Models
 
         public Discharge? Discharge { get; set; }
 
+		public ICollection<BillingDetails>? BillingDetails { get; set; } = new List<BillingDetails>();
 
 	}
 }
