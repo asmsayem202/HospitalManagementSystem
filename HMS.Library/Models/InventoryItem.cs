@@ -21,7 +21,7 @@ namespace HMS.Library.Models
 
 		public decimal Price { get; set; }
 		[Required]
-		public int QuantityInStock { get; set; }
+		public int Quantity { get; set; }
 		public string Category { get; set; }
 		public int? SupplierID { get; set; }
 

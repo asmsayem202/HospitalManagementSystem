@@ -15,11 +15,14 @@ namespace HMS.Library.Models
 		public int WardId { get; set; }
 		[Required]
 		public string? WardName { get; set; }
+		public int? DepartmentID { get; set; }
 
 
 
-        //Navigation Property
-        public ICollection<Nurse>? Nurses { get; set; } = new List<Nurse>();
+		//Navigation Property
+		public Department? Department { get; set; }
+
+		public ICollection<Nurse>? Nurses { get; set; } = new List<Nurse>();
 
         public ICollection<Room>? Rooms { get; set; } = new List<Room>();
 

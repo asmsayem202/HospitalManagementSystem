@@ -34,6 +34,8 @@ namespace HMS.Api
 			builder.Services.AddControllers().AddJsonOptions(options =>
 			{
 				options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+				//support string to enum converter
+				options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 			});
 
 

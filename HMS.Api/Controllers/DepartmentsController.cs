@@ -61,7 +61,7 @@ namespace HMS.Api.Controllers
 
 				var itemsIdList = department.Doctors.Select(d => d.DoctorId).ToList();
 
-				var delItems = await _context.Doctors.Where(i => i.DoctorId == id).Where(i => !itemsIdList.Contains(i.DoctorId)).ToListAsync();
+				var delItems = await _context.Doctors.Where(i => i.DepartmentID == id).Where(i => !itemsIdList.Contains(i.DoctorId)).ToListAsync();
 
 				_context.Doctors.RemoveRange(delItems);
 

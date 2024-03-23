@@ -16,7 +16,7 @@ namespace HMS.Library.Models
 		public string RoomNumber { get; set; }
 		public string? Status { get; set; } //Occupied,Availabe
 
-		public int? WardId { get; set; }
+		public int? WardID { get; set; }
 
 	}
 }

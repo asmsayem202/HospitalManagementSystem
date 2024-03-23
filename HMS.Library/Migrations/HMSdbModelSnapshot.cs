@@ -17,7 +17,7 @@ namespace HMS.Library.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.2")
+                .HasAnnotation("ProductVersion", "8.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -193,15 +193,7 @@ namespace HMS.Library.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("DoctorID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("WardID")
-                        .HasColumnType("int");
-
                     b.HasKey("DepartmentId");
-
-                    b.HasIndex("WardID");
 
                     b.ToTable("Departments");
                 });
@@ -249,8 +241,9 @@ namespace HMS.Library.Migrations
                     b.Property<int?>("AppointmentID")
                         .HasColumnType("int");
 
-                    b.Property<int>("ContactNo")
-                        .HasColumnType("int");
+                    b.Property<string>("ContactNo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("DepartmentID")
                         .HasColumnType("int");
@@ -292,6 +285,9 @@ namespace HMS.Library.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmergencyId"));
 
+                    b.Property<int?>("DepartmentID")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -309,6 +305,9 @@ namespace HMS.Library.Migrations
                     b.Property<int?>("PatientID")
                         .HasColumnType("int");
 
+                    b.Property<int?>("PrescribeID")
+                        .HasColumnType("int");
+
                     b.Property<string>("Severity")
                         .HasColumnType("nvarchar(max)");
 
@@ -317,9 +316,13 @@ namespace HMS.Library.Migrations
 
                     b.HasKey("EmergencyId");
 
+                    b.HasIndex("DepartmentID");
+
                     b.HasIndex("DoctorID");
 
                     b.HasIndex("PatientID");
+
+                    b.HasIndex("PrescribeID");
 
                     b.ToTable("Emergencies");
                 });
@@ -372,7 +375,7 @@ namespace HMS.Library.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("QuantityInStock")
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.Property<int?>("SupplierID")
@@ -572,12 +575,12 @@ namespace HMS.Library.Migrations
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("WardId")
+                    b.Property<int?>("WardID")
                         .HasColumnType("int");
 
                     b.HasKey("RoomId");
 
-                    b.HasIndex("WardId");
+                    b.HasIndex("WardID");
 
                     b.ToTable("Rooms");
                 });
@@ -659,6 +662,10 @@ namespace HMS.Library.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SupplierId"));
 
+                    b.Property<string>("ContactNo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -671,10 +678,6 @@ namespace HMS.Library.Migrations
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SupplierAddress")
                         .IsRequired()
@@ -728,6 +731,9 @@ namespace HMS.Library.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WardId"));
 
+                    b.Property<int?>("DepartmentID")
+                        .HasColumnType("int");
+
                     b.Property<int?>("PatientId")
                         .HasColumnType("int");
 
@@ -736,6 +742,8 @@ namespace HMS.Library.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("WardId");
+
+                    b.HasIndex("DepartmentID");
 
                     b.HasIndex("PatientId");
 
@@ -933,6 +941,28 @@ namespace HMS.Library.Migrations
                     b.HasKey("TranRefTypeId");
 
                     b.ToTable("TranRefType");
+
+                    b.HasData(
+                        new
+                        {
+                            TranRefTypeId = 1,
+                            Name = "Doctor"
+                        },
+                        new
+                        {
+                            TranRefTypeId = 2,
+                            Name = "Nurse"
+                        },
+                        new
+                        {
+                            TranRefTypeId = 3,
+                            Name = "Staff"
+                        },
+                        new
+                        {
+                            TranRefTypeId = 4,
+                            Name = "Supplier"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -1239,15 +1269,6 @@ namespace HMS.Library.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("HMS.Library.Models.Department", b =>
-                {
-                    b.HasOne("HMS.Library.Models.Ward", "Ward")
-                        .WithMany()
-                        .HasForeignKey("WardID");
-
-                    b.Navigation("Ward");
-                });
-
             modelBuilder.Entity("HMS.Library.Models.Discharge", b =>
                 {
                     b.HasOne("HMS.Library.Models.Admission", "Admission")
@@ -1274,6 +1295,10 @@ namespace HMS.Library.Migrations
 
             modelBuilder.Entity("HMS.Library.Models.Emergency", b =>
                 {
+                    b.HasOne("HMS.Library.Models.Department", "Department")
+                        .WithMany()
+                        .HasForeignKey("DepartmentID");
+
                     b.HasOne("HMS.Library.Models.Doctor", "Doctor")
                         .WithMany()
                         .HasForeignKey("DoctorID");
@@ -1282,9 +1307,17 @@ namespace HMS.Library.Migrations
                         .WithMany("Emergency")
                         .HasForeignKey("PatientID");
 
+                    b.HasOne("HMS.Library.Models.Prescribe", "Prescribe")
+                        .WithMany()
+                        .HasForeignKey("PrescribeID");
+
+                    b.Navigation("Department");
+
                     b.Navigation("Doctor");
 
                     b.Navigation("Patient");
+
+                    b.Navigation("Prescribe");
                 });
 
             modelBuilder.Entity("HMS.Library.Models.Followup", b =>
@@ -1351,7 +1384,7 @@ namespace HMS.Library.Migrations
                 {
                     b.HasOne("HMS.Library.Models.Ward", null)
                         .WithMany("Rooms")
-                        .HasForeignKey("WardId");
+                        .HasForeignKey("WardID");
                 });
 
             modelBuilder.Entity("HMS.Library.Models.Shift", b =>
@@ -1386,9 +1419,15 @@ namespace HMS.Library.Migrations
 
             modelBuilder.Entity("HMS.Library.Models.Ward", b =>
                 {
+                    b.HasOne("HMS.Library.Models.Department", "Department")
+                        .WithMany()
+                        .HasForeignKey("DepartmentID");
+
                     b.HasOne("HMS.Library.Models.Patient", null)
                         .WithMany("Ward")
                         .HasForeignKey("PatientId");
+
+                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

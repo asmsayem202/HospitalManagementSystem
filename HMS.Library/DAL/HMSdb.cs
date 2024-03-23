@@ -127,6 +127,31 @@ namespace HMS.Library.DAL
 
 			});
 
+			modelBuilder.Entity<TranRefType>().HasData(new TranRefType[]
+			{
+				new TranRefType
+				{
+					TranRefTypeId = 1,
+					Name = "Doctor"
+				},
+				new TranRefType
+				{
+					TranRefTypeId = 2,
+					Name = "Nurse"
+				},
+				new TranRefType
+				{
+					TranRefTypeId = 3,
+					Name = "Staff"
+				},
+				new TranRefType
+				{
+					TranRefTypeId = 4,
+					Name = "Supplier"
+				}
+
+			});
+
 			modelBuilder.Entity<AppointmentType>().HasData(new AppointmentType[]
 			{
 				new AppointmentType

@@ -24,7 +24,7 @@ namespace HMS.Library.Models
 		public string Email { get; set; }
 
 		[Required]
-		public string Phone { get; set; }
+		public string ContactNo { get; set; }
 
 		[DataType(DataType.MultilineText)]
 		[StringLength(250)]

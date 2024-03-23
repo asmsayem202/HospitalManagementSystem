@@ -20,7 +20,7 @@ namespace HMS.Library.Models
 		public string Specialization { get; set; }
 
 		//[Phone]
-		public int ContactNo { get; set; }
+		public string ContactNo { get; set; }
 		[EmailAddress]
 		public string Email { get; set; }
 		//(e.g., Sat-Thu 6-9)
