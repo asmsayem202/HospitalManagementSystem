@@ -16,7 +16,6 @@ namespace HMS.Library.Types
 		public int ReportTypeId { get; set; }
 
 		public string Name { get; set; }
-		public int? ReportID { get; set; }
 
         //Navigation property
         public ICollection<Report>? Report { get; set; } = new List<Report>();

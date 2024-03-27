@@ -15,7 +15,6 @@ namespace HMS.Library.Types
 		[Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int AppointmentTypeId { get; set; }
 		public string Name { get; set; }
-		public int? AppointmentID { get; set; }
 
 		//Navigation property
 		public ICollection<Appointment>? Appointment { get; set; } = new List<Appointment>();

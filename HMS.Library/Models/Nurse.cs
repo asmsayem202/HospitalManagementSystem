@@ -16,6 +16,7 @@ namespace HMS.Library.Models
 		public string Name { get; set; }
 		[Phone]
 		public string ContactNo { get; set; }
+		public ShiftType Shift { get; set; }
 
 		public int WardID { get; set; }
 

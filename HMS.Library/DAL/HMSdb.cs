@@ -28,7 +28,6 @@ namespace HMS.Library.DAL
 		public DbSet<Prescribe> Prescribes { get; set; }
 		public DbSet<Report> Reports { get; set; }
 		public DbSet<Room> Rooms { get; set; }
-		public DbSet<Shift> Shifts { get; set; }
 		public DbSet<Staff> Staffs { get; set; }
 		public DbSet<Supplier> Suppliers { get; set; }
 		public DbSet<Transaction> Transactions { get; set; }

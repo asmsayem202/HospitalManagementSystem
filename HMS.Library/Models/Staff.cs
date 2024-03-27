@@ -18,5 +18,13 @@ namespace HMS.Library.Models
 		public string ContactNo { get; set; }
 		[EmailAddress]
 		public string Email { get; set; }
+		public ShiftType Shift { get; set; }
+	}
+
+	public enum ShiftType
+	{
+		Morning,
+		Afternoon,
+		Night
 	}
 }

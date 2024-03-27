@@ -25,9 +25,9 @@ namespace HMS.Library.Models
 		public string Email { get; set; }
 		//(e.g., Sat-Thu 6-9)
 		public string? Schedule { get; set; }
+		public ShiftType Shift { get; set; }
+
 		public string? Image { get; set; }
-		public int? PatientID { get; set; }
-		public int? AppointmentID { get; set; }
 		public int? DepartmentID { get; set; }
 
         //[NotMapped]
@@ -36,7 +36,6 @@ namespace HMS.Library.Models
 
 
         //Navigation Property
-		public Department? Departments { get; set; }
         public ICollection<Patient>? Patient { get; set; } = new List<Patient>();
 
         public ICollection<Appointment>? Appointment { get; set; } = new List<Appointment>();

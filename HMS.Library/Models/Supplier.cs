@@ -29,7 +29,6 @@ namespace HMS.Library.Models
 		[DataType(DataType.MultilineText)]
 		[StringLength(250)]
 		public string SupplierAddress { get; set; }
-		public int InventoryItemsID { get; set; }
 
 
 		//Navigation Property
