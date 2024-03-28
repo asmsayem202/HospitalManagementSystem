@@ -17,6 +17,7 @@ namespace HMS.Library.Models
 		public string? Status { get; set; } //Occupied,Availabe
 
 		public int? WardID { get; set; }
-
+		//Navigation Property
+		public Ward? Ward { get; set; }
 	}
 }

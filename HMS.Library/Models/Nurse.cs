@@ -18,8 +18,9 @@ namespace HMS.Library.Models
 		public string ContactNo { get; set; }
 		public ShiftType Shift { get; set; }
 
-		public int WardID { get; set; }
-
+		public int? WardID { get; set; }
+		//Navigation Property
+		public Ward? Ward { get; set; }
 
 	}
 }

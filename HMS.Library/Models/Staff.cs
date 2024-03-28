@@ -14,6 +14,7 @@ namespace HMS.Library.Models
 		public int StaffId { get; set; }
 		[Required, StringLength(150)]
 		public string StaffName { get; set; }
+		public string Designation { get; set; }
 		public string? Address { get; set; }
 		public string ContactNo { get; set; }
 		[EmailAddress]

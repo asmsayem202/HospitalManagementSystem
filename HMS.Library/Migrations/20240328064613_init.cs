@@ -19,8 +19,7 @@ namespace HMS.Library.Migrations
                 {
                     AppointmentTypeId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AppointmentID = table.Column<int>(type: "int", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -72,8 +71,7 @@ namespace HMS.Library.Migrations
                 {
                     BloodTypeId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PatientID = table.Column<int>(type: "int", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -99,8 +97,7 @@ namespace HMS.Library.Migrations
                 {
                     ReportTypeId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ReportID = table.Column<int>(type: "int", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -114,9 +111,11 @@ namespace HMS.Library.Migrations
                     StaffId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     StaffName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Designation = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ContactNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Shift = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -132,8 +131,7 @@ namespace HMS.Library.Migrations
                     Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     ContactNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SupplierAddress = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    InventoryItemsID = table.Column<int>(type: "int", nullable: false)
+                    SupplierAddress = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -274,14 +272,7 @@ namespace HMS.Library.Migrations
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BloodTypeID = table.Column<int>(type: "int", nullable: true),
                     InsuranceInformation = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AppointmentID = table.Column<int>(type: "int", nullable: true),
-                    BillingID = table.Column<int>(type: "int", nullable: true),
-                    DoctorID = table.Column<int>(type: "int", nullable: true),
-                    EmergencyID = table.Column<int>(type: "int", nullable: true),
-                    FollowupID = table.Column<int>(type: "int", nullable: true),
-                    ReportID = table.Column<int>(type: "int", nullable: true),
-                    WardID = table.Column<int>(type: "int", nullable: true)
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -304,9 +295,8 @@ namespace HMS.Library.Migrations
                     ContactNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Schedule = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Shift = table.Column<int>(type: "int", nullable: false),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PatientID = table.Column<int>(type: "int", nullable: true),
-                    AppointmentID = table.Column<int>(type: "int", nullable: true),
                     DepartmentID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -578,7 +568,8 @@ namespace HMS.Library.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     ContactNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    WardID = table.Column<int>(type: "int", nullable: false)
+                    Shift = table.Column<int>(type: "int", nullable: false),
+                    WardID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -587,8 +578,7 @@ namespace HMS.Library.Migrations
                         name: "FK_Nurses_Wards_WardID",
                         column: x => x.WardID,
                         principalTable: "Wards",
-                        principalColumn: "WardId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "WardId");
                 });
 
             migrationBuilder.CreateTable(
@@ -652,40 +642,6 @@ namespace HMS.Library.Migrations
                         column: x => x.WardID,
                         principalTable: "Wards",
                         principalColumn: "WardId");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Shifts",
-                columns: table => new
-                {
-                    ShiftId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ShiftName = table.Column<int>(type: "int", nullable: false),
-                    StartTime = table.Column<TimeOnly>(type: "time", nullable: false),
-                    EndTime = table.Column<TimeOnly>(type: "time", nullable: false),
-                    ShiftStatus = table.Column<bool>(type: "bit", nullable: false),
-                    StaffID = table.Column<int>(type: "int", nullable: true),
-                    NurseID = table.Column<int>(type: "int", nullable: true),
-                    DoctorID = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Shifts", x => x.ShiftId);
-                    table.ForeignKey(
-                        name: "FK_Shifts_Doctors_DoctorID",
-                        column: x => x.DoctorID,
-                        principalTable: "Doctors",
-                        principalColumn: "DoctorId");
-                    table.ForeignKey(
-                        name: "FK_Shifts_Nurses_NurseID",
-                        column: x => x.NurseID,
-                        principalTable: "Nurses",
-                        principalColumn: "NurseId");
-                    table.ForeignKey(
-                        name: "FK_Shifts_Staffs_StaffID",
-                        column: x => x.StaffID,
-                        principalTable: "Staffs",
-                        principalColumn: "StaffId");
                 });
 
             migrationBuilder.CreateTable(
@@ -756,7 +712,7 @@ namespace HMS.Library.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    BillingID = table.Column<int>(type: "int", nullable: false)
+                    BillingID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -765,51 +721,50 @@ namespace HMS.Library.Migrations
                         name: "FK_BillingDetails_Billings_BillingID",
                         column: x => x.BillingID,
                         principalTable: "Billings",
-                        principalColumn: "BillingId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "BillingId");
                 });
 
             migrationBuilder.InsertData(
                 table: "AppointmentTypes",
-                columns: new[] { "AppointmentTypeId", "AppointmentID", "Name" },
+                columns: new[] { "AppointmentTypeId", "Name" },
                 values: new object[,]
                 {
-                    { 1, null, "General Consultation" },
-                    { 2, null, "Specialist Consultation" },
-                    { 3, null, "Follow-up Appointment" },
-                    { 4, null, "Maternity Appointment" },
-                    { 5, null, "Vaccination/Immunization" },
-                    { 6, null, "Surgical Consultation" },
-                    { 7, null, "Emergency Consultation" },
-                    { 8, null, "Nutritional Counseling" },
-                    { 9, null, "Lab Work or Blood Tests" }
+                    { 1, "General Consultation" },
+                    { 2, "Specialist Consultation" },
+                    { 3, "Follow-up Appointment" },
+                    { 4, "Maternity Appointment" },
+                    { 5, "Vaccination/Immunization" },
+                    { 6, "Surgical Consultation" },
+                    { 7, "Emergency Consultation" },
+                    { 8, "Nutritional Counseling" },
+                    { 9, "Lab Work or Blood Tests" }
                 });
 
             migrationBuilder.InsertData(
                 table: "BloodTypes",
-                columns: new[] { "BloodTypeId", "Name", "PatientID" },
+                columns: new[] { "BloodTypeId", "Name" },
                 values: new object[,]
                 {
-                    { 1, "A+", null },
-                    { 2, "A-", null },
-                    { 3, "AB+", null },
-                    { 4, "AB-", null },
-                    { 5, "B+", null },
-                    { 6, "B-", null },
-                    { 7, "O+", null },
-                    { 8, "O-", null }
+                    { 1, "A+" },
+                    { 2, "A-" },
+                    { 3, "AB+" },
+                    { 4, "AB-" },
+                    { 5, "B+" },
+                    { 6, "B-" },
+                    { 7, "O+" },
+                    { 8, "O-" }
                 });
 
             migrationBuilder.InsertData(
                 table: "ReportTypes",
-                columns: new[] { "ReportTypeId", "Name", "ReportID" },
+                columns: new[] { "ReportTypeId", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Discharge Summary", null },
-                    { 2, "Pathology Report", null },
-                    { 3, "Laboratory Report", null },
-                    { 4, "Consultation Report", null },
-                    { 5, "Anesthesia Report", null }
+                    { 1, "Discharge Summary" },
+                    { 2, "Pathology Report" },
+                    { 3, "Laboratory Report" },
+                    { 4, "Consultation Report" },
+                    { 5, "Anesthesia Report" }
                 });
 
             migrationBuilder.InsertData(
@@ -1008,21 +963,6 @@ namespace HMS.Library.Migrations
                 column: "WardID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Shifts_DoctorID",
-                table: "Shifts",
-                column: "DoctorID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Shifts_NurseID",
-                table: "Shifts",
-                column: "NurseID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Shifts_StaffID",
-                table: "Shifts",
-                column: "StaffID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Transactions_RefTypeID",
                 table: "Transactions",
                 column: "RefTypeID");
@@ -1066,10 +1006,13 @@ namespace HMS.Library.Migrations
                 name: "InventoryItems");
 
             migrationBuilder.DropTable(
+                name: "Nurses");
+
+            migrationBuilder.DropTable(
                 name: "Rooms");
 
             migrationBuilder.DropTable(
-                name: "Shifts");
+                name: "Staffs");
 
             migrationBuilder.DropTable(
                 name: "Transactions");
@@ -1085,12 +1028,6 @@ namespace HMS.Library.Migrations
 
             migrationBuilder.DropTable(
                 name: "Suppliers");
-
-            migrationBuilder.DropTable(
-                name: "Nurses");
-
-            migrationBuilder.DropTable(
-                name: "Staffs");
 
             migrationBuilder.DropTable(
                 name: "TranRefType");

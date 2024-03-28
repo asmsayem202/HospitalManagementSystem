@@ -34,13 +34,6 @@ namespace HMS.Library.Models
 
 		//(e.g., Active, Discharged, Deceased)
 		public string? Status { get; set; }
-		public int? AppointmentID { get; set; }
-		public int? BillingID { get; set; }
-		public int? DoctorID { get; set; }
-		public int? EmergencyID { get; set; }
-		public int? FollowupID { get; set; }
-		public int? ReportID { get; set; }
-		public int? WardID { get; set; }
 
 
 
