@@ -19,5 +19,8 @@ namespace HMS.Library.Models
 		public int? WardID { get; set; }
 		//Navigation Property
 		public Ward? Ward { get; set; }
+		public ICollection<Admission> Admissions { get; set; }
+
+
 	}
 }

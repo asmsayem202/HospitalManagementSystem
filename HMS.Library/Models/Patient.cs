@@ -19,17 +19,14 @@ namespace HMS.Library.Models
 		[Required, StringLength(150)]
 		public string Name { get; set; }
 
-		[DataType(DataType.Date)]
-		public DateOnly? Dob { get; set; }
-
 		public Genders Gender { get; set; } = Genders.Other;
-		public int? Age { get; set; }
+		public int Age { get; set; }
 		public string ContactNo { get; set; }
 
 		[EmailAddress]
 		public string? Email { get; set; }
 		public string? Address { get; set; }
-		public int? BloodTypeID { get; set; }
+		public int BloodTypeID { get; set; }
 		public string? InsuranceInformation { get; set; }
 
 		//(e.g., Active, Discharged, Deceased)
@@ -41,23 +38,15 @@ namespace HMS.Library.Models
         //Navigation property
         public BloodType? BloodType { get; set; }
 
-        public ICollection<Doctor>? Doctor { get; set; } = new List<Doctor>();
+		//public ICollection<Doctor>? Doctor { get; set; } = new List<Doctor>();
 
-        public ICollection<Emergency>? Emergency { get; set; } = new List<Emergency>();
+		public ICollection<Emergency>? Emergency { get; set; } = new List<Emergency>();
 
-        public ICollection<Followup>? Followup { get; set; } = new List<Followup>();
+		public ICollection<Report>? Report { get; set; } = new List<Report>();
 
-        public ICollection<Prescribe>? Prescribe { get; set; } = new List<Prescribe>();
+		public ICollection<Appointment>? Appointment { get; set; } = new List<Appointment>();
 
-        public ICollection<Report>? Report { get; set; } = new List<Report>();
-
-        public ICollection<Ward>? Ward { get; set; } = new List<Ward>();
-
-        public ICollection<Admission>? Admission { get; set; } = new List<Admission>();
-
-        public ICollection<Appointment>? Appointment { get; set; } = new List<Appointment>();
-
-        public ICollection<Billing>? Billing { get; set; } = new List<Billing>();
+		public ICollection<Billing>? Billing { get; set; } = new List<Billing>();
 
 	}
 

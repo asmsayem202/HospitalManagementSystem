@@ -18,18 +18,26 @@ namespace HMS.Library.Models
 		public DateTime AdmissionDate { get; set; }
 		public int? AppointmentID { get; set; }
 		public int? EmergencyID { get; set; }
-		public int? FollowupID { get; set; }
-		public int? WardID { get; set; }
+		public int WardID { get; set; }
+		public int NurseID { get; set; }
+		public int RoomID { get; set; }
+		public AdmissionType AdmissionType { get; set; } = AdmissionType.Appointment;
 
 
-        //Navigation Property
+		//Navigation Property
 
-        public Appointment? Appointment { get; set; }
+		public Appointment? Appointment { get; set; }
 
-        public Emergency? Emergency { get; set; }
+		public Emergency? Emergency { get; set; }
 
-        public Followup? Followup { get; set; }
+		public Ward? Ward { get; set; }
+		public Nurse? Nurse { get; set; }
+		public Room? Room { get; set; }
+	}
 
-        public Ward? Ward { get; set; }
+	public enum AdmissionType
+	{
+		Appointment,
+		Emergency,
 	}
 }

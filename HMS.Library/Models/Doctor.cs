@@ -25,24 +25,25 @@ namespace HMS.Library.Models
 		public string Email { get; set; }
 		//(e.g., Sat-Thu 6-9)
 		public string? Schedule { get; set; }
-		public ShiftType Shift { get; set; }
-
-		public string? Image { get; set; }
+		public ShiftType Shift { get; set; } = ShiftType.Morning_6am_To_2pm;
 
 		[ForeignKey(nameof(Department.DepartmentId))]
 		public int? DepartmentID { get; set; }
 
-		//[NotMapped]
-		//public IFormFile? ImageFile { get; set; }
+		//Image
+		public string? ImagePath { get; set; }
+
+		[NotMapped]
+		public ImageUpload? ImageUpload { get; set; }
 
 
 
 		//Navigation Property		
 
 		public Department? Department { get; set; }
-		public ICollection<Patient>? Patient { get; set; } = new List<Patient>();
+		//public ICollection<Patient>? Patient { get; set; } = new List<Patient>();
 
-        public ICollection<Appointment>? Appointment { get; set; } = new List<Appointment>();
+  //      public ICollection<Appointment>? Appointment { get; set; } = new List<Appointment>();
 
 
 	}

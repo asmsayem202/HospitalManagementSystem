@@ -13,26 +13,30 @@ namespace HMS.Library.Models
 	{
 		[Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int BillingId { get; set; }
-		public int? PatientID { get; set; }
-
+		public int PatientID { get; set; }
 
 		[DataType(DataType.DateTime)]
 		public DateTime DateTime { get; set; }
 
-		public decimal Amount { get; set; }
-		public int? ReportID { get; set; }
-		public int? DischargeID { get; set; }
+		public decimal? OT_Fee { get; set; } = 0;
+		public decimal? MedicineFee { get; set; } = 0;
+		public decimal? ConsultancyFee { get; set; } = 0;
+		public decimal? BedCharge { get; set; } = 0;
+		public decimal? ServiceCharge { get; set; } = 0;
+		public decimal? OthersFee { get; set; } = 0;
+
+
+		public decimal? Amount { get; set; } = 0;
+		public decimal? Discount { get; set; } = 0;
+		public decimal? NetAmount { get; set; } = 0;
+		public decimal? PaidAmount { get; set; } = 0;
+		public decimal? BalanceDue { get; set; } = 0;
 
 
 
-        //Navigation Property
-        public Patient? Patient { get; set; }
+		//Navigation Property
+		public Patient? Patient { get; set; }
 
-        public Report? Report { get; set; }
-
-        public Discharge? Discharge { get; set; }
-
-		public ICollection<BillingDetails>? BillingDetails { get; set; } = new List<BillingDetails>();
 
 	}
 }

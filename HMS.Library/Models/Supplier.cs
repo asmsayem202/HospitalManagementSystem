@@ -28,7 +28,7 @@ namespace HMS.Library.Models
 
 		[DataType(DataType.MultilineText)]
 		[StringLength(250)]
-		public string SupplierAddress { get; set; }
+		public string? Address { get; set; }
 
 
 		//Navigation Property

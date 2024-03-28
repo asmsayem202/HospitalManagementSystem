@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using HMS.Api.SecurityModels;
+using HMS.Library.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -6,87 +8,99 @@ using System.Text;
 
 namespace HMS.Api.Services
 {
-	public interface ITokenService
-	{
-		Task<string> Get(LoginUser user);
-	}
-
 	public class TokenService : ITokenService
 	{
-		private readonly IConfiguration configuration;
-		private readonly SignInManager<IdentityUser> signInManager;
-		private readonly UserManager<IdentityUser> userManager;
+		private const int ExpirationDays = 7;
+		private readonly ILogger<TokenService> _logger;
 
-
-		public TokenService(IConfiguration configuration,
-		SignInManager<IdentityUser> signInManager,
-		UserManager<IdentityUser> userManager)
+		public TokenService(ILogger<TokenService> logger)
 		{
-			this.configuration = configuration;
-			this.signInManager = signInManager;
-			this.userManager = userManager;
+			_logger = logger;
 		}
-		public async Task<string> Get(LoginUser user)
+
+		public string CreateToken(ApplicationUser user)
 		{
-			var validUser = userManager.Users.SingleOrDefault(u => u.UserName == user.UserName);
-			if (validUser is null)
-			{
-				return "Not Found.";
-			}
-			var result = await signInManager.PasswordSignInAsync(user.UserName, user.Password, false, false);
 
-			if (!result.Succeeded)
-			{
-				throw new Exception( "Invalid Credential.");			}
+			var token = CreateJwtToken(user);
 
-			user.Roles = await userManager.GetRolesAsync(validUser);
+			//var payload = new JObject()
+			//{
+			//    { JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()},
+			//    { JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString()},
+			//    { JwtRegisteredClaimNames.Exp, expiration.ToUnixTimeSeconds().ToString()},
+			//    { JwtRegisteredClaimNames.Email, user.Email },
+			//    { JwtRegisteredClaimNames.GivenName,user.UserName},
+			//    { JwtRegisteredClaimNames.Name,user.UserName},
+			//    { ClaimTypes.NameIdentifier, user.Id },
+			//    { ClaimTypes.Role, user.Role.ToString() }
+			//}.ToString();
+
+			//var tokenHandler = new JsonWebTokenHandler();
+			//var signingCredentials = CreateSigningCredentials();
+			//var jwt = tokenHandler.CreateToken(payload);
+			var tokenHandler = new JwtSecurityTokenHandler();
+			_logger.LogInformation("JWT Token created");
+
+			return tokenHandler.WriteToken(token);
+		}
+
+		private JwtSecurityToken CreateJwtToken(ApplicationUser user)
+		{
+			var expiration = DateTime.UtcNow.AddDays(ExpirationDays);
+			var claims = CreateClaims(user);
+			var credentials = CreateSigningCredentials();
+
+			return new JwtSecurityToken(
+				new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("JwtTokenSettings")["ValidIssuer"],
+				new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("JwtTokenSettings")["ValidAudience"],
+				claims,
+				expires: expiration,
+				signingCredentials: credentials
+			);
+		}
+		//yyyyMMddHHmmss
+		private List<Claim> CreateClaims(ApplicationUser user)
+		{
+			var jwtSub = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("JwtTokenSettings")["JwtRegisteredClaimNamesSub"];
 
 			try
 			{
+				var claims = new List<Claim>
+					{
+						new Claim(JwtRegisteredClaimNames.Sub, jwtSub),
+						new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+						new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString()),
+						new Claim(ClaimTypes.NameIdentifier, user.Id),
+						new Claim(ClaimTypes.Name, user.UserName),
+						new Claim(ClaimTypes.Email, user.Email),
+						//new Claim(ClaimTypes.Role, string.Join(',',user.Role))
+					};
 
-				var tokenHandler = new JwtSecurityTokenHandler();
 
-				var key = Encoding.UTF8.GetBytes(configuration["Jwt:SignKey"]);
-
-				var tokenDescriptor = new SecurityTokenDescriptor()
+				foreach (var role in user.Role)
 				{
-					Subject = new ClaimsIdentity(
-							new Claim[]
-							{
-								new Claim(ClaimTypes.Name, user.UserName),
-								new Claim(ClaimTypes.Role, string.Join(',',user.Roles))
+					claims.Add(new Claim(ClaimTypes.Role, role));
+				}
 
-							}),
-
-					IssuedAt = DateTime.UtcNow,
-					Expires = DateTime.UtcNow.AddDays(7),
-
-					SigningCredentials = new SigningCredentials(
-						new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-
-				};
-				var token = tokenHandler.CreateJwtSecurityToken(tokenDescriptor);
-
-				string jsonToken = tokenHandler.WriteToken(token);
-
-				return jsonToken;
-
+				return claims;
 			}
-			catch (Exception ex)
+			catch (Exception e)
 			{
-
-				return ex.Message;
+				Console.WriteLine(e);
+				throw;
 			}
 		}
-	}
 
-
-
-	public static class JwtHelper
-	{
-		public static void AddTokenService(this IServiceCollection service)
+		private SigningCredentials CreateSigningCredentials()
 		{
-			service.AddScoped<ITokenService, TokenService>();
+			var symmetricSecurityKey = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("JwtTokenSettings")["SymmetricSecurityKey"];
+
+			return new SigningCredentials(
+				new SymmetricSecurityKey(
+					Encoding.UTF8.GetBytes(symmetricSecurityKey)
+				),
+				SecurityAlgorithms.HmacSha256
+			);
 		}
 	}
 }

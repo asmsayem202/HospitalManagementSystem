@@ -20,12 +20,17 @@ namespace HMS.Library.Models
 		[EmailAddress]
 		public string Email { get; set; }
 		public ShiftType Shift { get; set; }
+
+		public string? ImagePath { get; set; }
+
+		[NotMapped]
+		public ImageUpload? ImageUpload { get; set; }
 	}
 
 	public enum ShiftType
 	{
-		Morning,
-		Afternoon,
-		Night
+		Morning_6am_To_2pm,
+		Afternoon_2pm_To_10pm,
+		Night_10pm_To_6am
 	}
 }
