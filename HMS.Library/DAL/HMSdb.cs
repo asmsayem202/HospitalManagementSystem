@@ -17,6 +17,7 @@ namespace HMS.Library.DAL
 		public DbSet<Admission> Admissions { get; set; }
 		public DbSet<Appointment> Appointments { get; set; }
 		public DbSet<Billing> Billings { get; set; }
+		public DbSet<BillingDetails> BillingDetails { get; set; }
 		public DbSet<Department> Departments { get; set; }
 		public DbSet<Discharge> Discharges { get; set; }
 		public DbSet<Doctor> Doctors { get; set; }
@@ -126,30 +127,6 @@ namespace HMS.Library.DAL
 
 			});
 
-			modelBuilder.Entity<TranRefType>().HasData(new TranRefType[]
-			{
-				new TranRefType
-				{
-					TranRefTypeId = 1,
-					Name = "Doctor"
-				},
-				new TranRefType
-				{
-					TranRefTypeId = 2,
-					Name = "Nurse"
-				},
-				new TranRefType
-				{
-					TranRefTypeId = 3,
-					Name = "Staff"
-				},
-				new TranRefType
-				{
-					TranRefTypeId = 4,
-					Name = "Supplier"
-				}
-
-			});
 
 			modelBuilder.Entity<AppointmentType>().HasData(new AppointmentType[]
 			{

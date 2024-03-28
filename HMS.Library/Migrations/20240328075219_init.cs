@@ -139,16 +139,21 @@ namespace HMS.Library.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TranRefType",
+                name: "Transactions",
                 columns: table => new
                 {
-                    TranRefTypeId = table.Column<int>(type: "int", nullable: false)
+                    TransactionId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    TransactionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PaidAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    RefTypeID = table.Column<int>(type: "int", nullable: true),
+                    RefType = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TranRefType", x => x.TranRefTypeId);
+                    table.PrimaryKey("PK_Transactions", x => x.TransactionId);
                 });
 
             migrationBuilder.CreateTable(
@@ -329,29 +334,6 @@ namespace HMS.Library.Migrations
                         column: x => x.SupplierID,
                         principalTable: "Suppliers",
                         principalColumn: "SupplierId");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Transactions",
-                columns: table => new
-                {
-                    TransactionId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TransactionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    PaidAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    RefTypeID = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Transactions", x => x.TransactionId);
-                    table.ForeignKey(
-                        name: "FK_Transactions_TranRefType_RefTypeID",
-                        column: x => x.RefTypeID,
-                        principalTable: "TranRefType",
-                        principalColumn: "TranRefTypeId");
                 });
 
             migrationBuilder.CreateTable(
@@ -712,6 +694,7 @@ namespace HMS.Library.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PaidAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     BillingID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -765,17 +748,6 @@ namespace HMS.Library.Migrations
                     { 3, "Laboratory Report" },
                     { 4, "Consultation Report" },
                     { 5, "Anesthesia Report" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "TranRefType",
-                columns: new[] { "TranRefTypeId", "Name" },
-                values: new object[,]
-                {
-                    { 1, "Doctor" },
-                    { 2, "Nurse" },
-                    { 3, "Staff" },
-                    { 4, "Supplier" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -963,11 +935,6 @@ namespace HMS.Library.Migrations
                 column: "WardID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transactions_RefTypeID",
-                table: "Transactions",
-                column: "RefTypeID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Wards_DepartmentID",
                 table: "Wards",
                 column: "DepartmentID");
@@ -1028,9 +995,6 @@ namespace HMS.Library.Migrations
 
             migrationBuilder.DropTable(
                 name: "Suppliers");
-
-            migrationBuilder.DropTable(
-                name: "TranRefType");
 
             migrationBuilder.DropTable(
                 name: "Discharges");

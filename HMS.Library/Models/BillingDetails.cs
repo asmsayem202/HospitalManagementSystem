@@ -13,6 +13,8 @@ namespace HMS.Library.Models
 		public decimal Amount { get; set; }
 		public decimal Discount { get; set; }
 		public decimal NetAmount => Amount - Discount;
+		public decimal PaidAmount { get; set; }
+		public decimal BalanceDue => NetAmount - PaidAmount;
 		public int? BillingID { get; set; }
 		//Navigation Property
 		public Billing? Billing { get; set; }

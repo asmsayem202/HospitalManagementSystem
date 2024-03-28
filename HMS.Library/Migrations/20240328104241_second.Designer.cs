@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HMS.Library.Migrations
 {
     [DbContext(typeof(HMSdb))]
-    [Migration("20240328064613_init")]
-    partial class init
+    [Migration("20240328104241_second")]
+    partial class second
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -176,6 +176,9 @@ namespace HMS.Library.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("PaidAmount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("BillingDetailsId");
 
@@ -650,11 +653,11 @@ namespace HMS.Library.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Discount")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<decimal>("PaidAmount")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("RefType")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("RefTypeID")
                         .HasColumnType("int");
@@ -663,8 +666,6 @@ namespace HMS.Library.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("TransactionId");
-
-                    b.HasIndex("RefTypeID");
 
                     b.ToTable("Transactions");
                 });
@@ -680,7 +681,7 @@ namespace HMS.Library.Migrations
                     b.Property<int?>("DepartmentID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PatientId")
+                    b.Property<int?>("PatientID")
                         .HasColumnType("int");
 
                     b.Property<string>("WardName")
@@ -691,7 +692,7 @@ namespace HMS.Library.Migrations
 
                     b.HasIndex("DepartmentID");
 
-                    b.HasIndex("PatientId");
+                    b.HasIndex("PatientID");
 
                     b.ToTable("Wards");
                 });
@@ -860,45 +861,6 @@ namespace HMS.Library.Migrations
                         {
                             ReportTypeId = 5,
                             Name = "Anesthesia Report"
-                        });
-                });
-
-            modelBuilder.Entity("HMS.Library.Types.TranRefType", b =>
-                {
-                    b.Property<int>("TranRefTypeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TranRefTypeId"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("TranRefTypeId");
-
-                    b.ToTable("TranRefType");
-
-                    b.HasData(
-                        new
-                        {
-                            TranRefTypeId = 1,
-                            Name = "Doctor"
-                        },
-                        new
-                        {
-                            TranRefTypeId = 2,
-                            Name = "Nurse"
-                        },
-                        new
-                        {
-                            TranRefTypeId = 3,
-                            Name = "Staff"
-                        },
-                        new
-                        {
-                            TranRefTypeId = 4,
-                            Name = "Supplier"
                         });
                 });
 
@@ -1326,26 +1288,19 @@ namespace HMS.Library.Migrations
                     b.Navigation("Ward");
                 });
 
-            modelBuilder.Entity("HMS.Library.Models.Transaction", b =>
-                {
-                    b.HasOne("HMS.Library.Types.TranRefType", "RefType")
-                        .WithMany()
-                        .HasForeignKey("RefTypeID");
-
-                    b.Navigation("RefType");
-                });
-
             modelBuilder.Entity("HMS.Library.Models.Ward", b =>
                 {
                     b.HasOne("HMS.Library.Models.Department", "Department")
                         .WithMany()
                         .HasForeignKey("DepartmentID");
 
-                    b.HasOne("HMS.Library.Models.Patient", null)
+                    b.HasOne("HMS.Library.Models.Patient", "Patient")
                         .WithMany("Ward")
-                        .HasForeignKey("PatientId");
+                        .HasForeignKey("PatientID");
 
                     b.Navigation("Department");
+
+                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

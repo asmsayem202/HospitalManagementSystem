@@ -23,14 +23,12 @@ namespace HMS.Library.Models
 
 		[Required]
 		public decimal Amount { get; set; }
-		public decimal Discount { get; set; }
-		public decimal NetAmount => Amount - Discount;
 		public decimal PaidAmount { get; set; }
-		public decimal BalanceDue => NetAmount - PaidAmount;
+		public decimal BalanceDue => Amount - PaidAmount;
 
 		//Transaction + Supplier join query
 		public int? RefTypeID { get; set; }
-		public TranRefType? RefType { get; set; }
+		public string? RefType { get; set; }
 	}
 
 }

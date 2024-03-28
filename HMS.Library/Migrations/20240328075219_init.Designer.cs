@@ -4,6 +4,7 @@ using HMS.Library.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HMS.Library.Migrations
 {
     [DbContext(typeof(HMSdb))]
-    partial class HMSdbModelSnapshot : ModelSnapshot
+    [Migration("20240328075219_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -678,7 +681,7 @@ namespace HMS.Library.Migrations
                     b.Property<int?>("DepartmentID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PatientID")
+                    b.Property<int?>("PatientId")
                         .HasColumnType("int");
 
                     b.Property<string>("WardName")
@@ -689,7 +692,7 @@ namespace HMS.Library.Migrations
 
                     b.HasIndex("DepartmentID");
 
-                    b.HasIndex("PatientID");
+                    b.HasIndex("PatientId");
 
                     b.ToTable("Wards");
                 });
@@ -1291,13 +1294,11 @@ namespace HMS.Library.Migrations
                         .WithMany()
                         .HasForeignKey("DepartmentID");
 
-                    b.HasOne("HMS.Library.Models.Patient", "Patient")
+                    b.HasOne("HMS.Library.Models.Patient", null)
                         .WithMany("Ward")
-                        .HasForeignKey("PatientID");
+                        .HasForeignKey("PatientId");
 
                     b.Navigation("Department");
-
-                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
