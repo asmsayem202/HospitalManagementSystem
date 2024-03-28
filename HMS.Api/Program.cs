@@ -2,8 +2,10 @@
 using System.Data.Common;
 using System.Text;
 using System.Text.Json.Serialization;
+using FastReport.Data;
 using HMS.Api.Services;
 using HMS.Library.DAL;
+using HMS.Library.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.AspNetCore.Identity;
@@ -26,9 +28,18 @@ namespace HMS.Api
 			builder.Services.AddDbContext<HMSdb>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
 
 
-			builder.Services.AddIdentity<IdentityUser, IdentityRole>(
-				//options => options.SignIn.RequireConfirmedAccount = true
-				).AddEntityFrameworkStores<HMSdb>();
+			builder.Services
+				.AddIdentity<ApplicationUser, IdentityRole>(options =>
+				{
+					options.SignIn.RequireConfirmedAccount = false;
+					options.User.RequireUniqueEmail = true;
+					options.Password.RequireDigit = false;
+					options.Password.RequiredLength = 4;
+					options.Password.RequireNonAlphanumeric = false;
+					options.Password.RequireUppercase = false;
+				})
+			.AddRoles<IdentityRole>()
+			.AddEntityFrameworkStores<HMSdb>();
 
 
 			builder.Services.AddControllers().AddJsonOptions(options =>
@@ -60,7 +71,7 @@ namespace HMS.Api
 
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();
-			
+
 			builder.Services.AddSwaggerGen(c =>
 			{
 				c.SwaggerDoc("v1", new OpenApiInfo { Title = "HMS API", Version = "v1" });
@@ -92,29 +103,43 @@ namespace HMS.Api
 
 			//builder.Services.AddTokenService();
 			builder.Services.AddScoped<ITokenService, TokenService>();
+			builder.Services.AddScoped<ImageUploadService>();
 
 
-            builder.Services.AddAuthentication(opt =>
+
+			var validIssuer = builder.Configuration.GetValue<string>("JwtTokenSettings:ValidIssuer");
+			var validAudience = builder.Configuration.GetValue<string>("JwtTokenSettings:ValidAudience");
+			var symmetricSecurityKey = builder.Configuration.GetValue<string>("JwtTokenSettings:SymmetricSecurityKey");
+
+			builder.Services.AddAuthentication(options =>
 			{
-				opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-				opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-				//opt.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-			}).AddJwtBearer(opt =>
-			{
-
-				var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:SignKey"]);
-				//opt.SaveToken = true;
-				opt.TokenValidationParameters = new TokenValidationParameters
+				options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+				options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+				options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+			})
+				.AddJwtBearer(options =>
 				{
-					ValidateIssuerSigningKey = true,
-					IssuerSigningKey = new SymmetricSecurityKey(key),
-					ValidateIssuer = false,
-					ValidateAudience = false,
-					RequireExpirationTime = true,
-					ValidateLifetime = true,
-				};
-				opt.UseSecurityTokenValidators = true;
-			});
+					options.IncludeErrorDetails = true;
+					options.UseSecurityTokenValidators = true;
+					options.TokenValidationParameters = new TokenValidationParameters()
+					{
+						ClockSkew = TimeSpan.Zero,
+						ValidateIssuer = true,
+						ValidateAudience = true,
+						ValidateLifetime = true,
+						ValidateIssuerSigningKey = true,
+						ValidIssuer = validIssuer,
+						ValidAudience = validAudience,
+						IssuerSigningKey = new SymmetricSecurityKey(
+							Encoding.UTF8.GetBytes(symmetricSecurityKey)
+						),
+						SaveSigninToken = true
+					};
+				});
+
+
+			FastReport.Utils.RegisteredObjects.AddConnection(typeof(MsSqlDataConnection));
+			builder.Services.AddFastReport();
 
 			var app = builder.Build();
 
@@ -124,20 +149,23 @@ namespace HMS.Api
 				app.UseSwagger();
 				app.UseSwaggerUI();
 			}
-            app.UseStaticFiles();
+			app.UseStaticFiles();
+			app.UseCors(opt =>
+            {
+                opt.AllowAnyHeader();
+                opt.AllowAnyOrigin();
+                opt.AllowAnyMethod();
+            });
             app.UseHttpsRedirection();
 
 			app.UseAuthentication();
 			app.UseAuthorization();
 
-			app.UseCors(opt =>
-			{
-				opt.AllowAnyHeader();
-				opt.AllowAnyOrigin();
-				opt.AllowAnyMethod();
-			});
+			
 
 			app.MapControllers();
+
+			app.UseFastReport();
 
 			app.Run();
 		}

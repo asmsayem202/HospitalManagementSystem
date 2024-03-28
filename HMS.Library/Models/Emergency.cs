@@ -14,10 +14,9 @@ namespace HMS.Library.Models
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int EmergencyId { get; set; }
-		public int? PatientID { get; set; }
-		public int? DoctorID { get; set; }
-		public int? DepartmentID { get; set; }
-		public int? PrescribeID { get; set; }
+		public int PatientID { get; set; }
+		public int DoctorID { get; set; }
+		public int DepartmentID { get; set; }
 
 		[StringLength(50)]
 		public string? Location { get; set; }
@@ -26,13 +25,12 @@ namespace HMS.Library.Models
 		[Required]
 		public string? Description { get; set; }
 		public string? Severity { get; set; }
-		public string? Status { get; set; }
 
         //Navigation property
         public Patient? Patient { get; set; }
         public Doctor? Doctor { get; set; }
         public Department? Department { get; set; }
-		public Prescribe? Prescribe { get; set; }
+		public EmergencyPrescribe? EmergencyPrescribe { get; set; }
 
 
 	}

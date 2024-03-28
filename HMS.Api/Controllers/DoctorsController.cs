@@ -7,31 +7,36 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HMS.Library.DAL;
 using HMS.Library.Models;
-using Microsoft.Extensions.Hosting;
-using HMS.Api.ModelsData;
-using Microsoft.AspNetCore.Authorization;
+using HMS.Api.Services;
 
 namespace HMS.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class DoctorsController : ControllerBase
     {
         private readonly HMSdb _context;
-        private readonly IWebHostEnvironment _hostEnvironment;
+		private readonly ImageUploadService imageUpload;
 
-        public DoctorsController(HMSdb context, IWebHostEnvironment hostEnvironment)
+		public DoctorsController(HMSdb context, ImageUploadService imageUpload)
         {
             _context = context;
-            _hostEnvironment = hostEnvironment;
-        }
+			this.imageUpload = imageUpload;
+		}
 
         // GET: api/Doctors
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Doctor>>> GetDoctors()
         {
-            return await _context.Doctors.ToListAsync();
+            try
+            {
+				return await _context.Doctors.ToListAsync();
+			}
+            catch (Exception ex)
+            {
+                return NotFound(ex);
+            }
+           
         }
 
         // GET: api/Doctors/5
@@ -48,59 +53,25 @@ namespace HMS.Api.Controllers
             return doctor;
         }
 
-
-        private async Task<string> UploadImage(DoctorData doctorData)
-        {
-            string fileName = Path.GetFileNameWithoutExtension(doctorData.ImageUpload.FileName);
-            string fileExt = Path.GetExtension(doctorData.ImageUpload.FileName);
-
-            string imagepath = $"\\Images\\{fileName}_{Guid.NewGuid()}{fileExt}";
-
-            //string imagepath = "\\Images\\" + doctorData.ImageUpload.FileName;
-
-
-            string filepath = _hostEnvironment.WebRootPath + imagepath;
-
-            using (FileStream filestream = System.IO.File.Create(filepath))
-            {
-                await doctorData.ImageUpload.CopyToAsync(filestream);
-                await filestream.FlushAsync();
-            }
-
-            doctorData.Image = imagepath;
-            return imagepath;
-        }
-
-
         // PUT: api/Doctors/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutDoctor(int id, DoctorData doctorData)
+        public async Task<IActionResult> PutDoctor(int id, Doctor doctor)
         {
-            if (id != doctorData.DoctorId)
+            if (id != doctor.DoctorId)
             {
                 return BadRequest();
             }
 
 
-            if (doctorData.ImageUpload != null)
-            {
+			if (doctor.ImageUpload?.ImageData != null)
+			{
+				//Doctor.ImagePath = await imageUpload.Upload(doctor.ImageUpload);
+				doctor.ImagePath = doctor.ImageUpload?.ImageData;
 
-                try
-                {
-                    doctorData.Image = await UploadImage(doctorData);
+			}
 
-                }
-                catch (Exception ex)
-                {
-
-                    return BadRequest(ex.Message);
-                }
-
-            }
-
-
-            _context.Entry<Doctor>(doctorData).State = EntityState.Modified;
+			_context.Entry(doctor).State = EntityState.Modified;
 
             try
             {
@@ -121,36 +92,30 @@ namespace HMS.Api.Controllers
             return NoContent();
         }
 
-        // POST: api/Doctors
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Doctor>> PostDoctor(DoctorData doctorData)
-        {
+		// POST: Doctors
+		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+		[HttpPost]
+		public async Task<ActionResult<Doctor>> PostDoctor(Doctor doctor)
+		{
 
-            if (doctorData.ImageUpload != null)
-            {
+			if (doctor.ImageUpload?.ImageData != null)
+			{
+				//Doctor.ImagePath = await imageUpload.Upload(doctor.ImageUpload);
+				doctor.ImagePath = doctor.ImageUpload?.ImageData;
 
-                try
-                {
-                    doctorData.Image = await UploadImage(doctorData);
+			}
 
-                }
-                catch (Exception ex)
-                {
 
-                    return BadRequest(ex.Message);
-                }
 
-            }
 
-            _context.Doctors.Add(doctorData);
-            await _context.SaveChangesAsync();
+			_context.Doctors.Add(doctor);
+			await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDoctor", new { id = doctorData.DoctorId }, doctorData);
-        }
+			return CreatedAtAction("GetDoctor", new { id = doctor.DoctorId }, doctor);
+		}
 
-        // DELETE: api/Doctors/5
-        [HttpDelete("{id}")]
+		// DELETE: api/Doctors/5
+		[HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDoctor(int id)
         {
             var doctor = await _context.Doctors.FindAsync(id);

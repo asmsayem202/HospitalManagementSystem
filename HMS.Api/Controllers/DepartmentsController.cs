@@ -26,7 +26,7 @@ namespace HMS.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Department>>> GetDepartments()
         {
-            return await _context.Departments.Include(i => i.Doctors).ToListAsync();
+            return await _context.Departments.ToListAsync();
 		}
 
         // GET: api/Departments/5

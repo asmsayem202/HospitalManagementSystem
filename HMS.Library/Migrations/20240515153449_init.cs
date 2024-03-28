@@ -45,6 +45,7 @@ namespace HMS.Library.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -84,7 +85,7 @@ namespace HMS.Library.Migrations
                 {
                     DepartmentId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DepartmentName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -115,7 +116,8 @@ namespace HMS.Library.Migrations
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ContactNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Shift = table.Column<int>(type: "int", nullable: false)
+                    Shift = table.Column<int>(type: "int", nullable: false),
+                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -131,7 +133,7 @@ namespace HMS.Library.Migrations
                     Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     ContactNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SupplierAddress = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false)
+                    Address = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -139,16 +141,34 @@ namespace HMS.Library.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TranRefType",
+                name: "Transactions",
                 columns: table => new
                 {
-                    TranRefTypeId = table.Column<int>(type: "int", nullable: false)
+                    TransactionId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TransactionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PaidAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    RefTypeID = table.Column<int>(type: "int", nullable: true),
+                    RefTypeName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Transactions", x => x.TransactionId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Wards",
+                columns: table => new
+                {
+                    WardId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TranRefType", x => x.TranRefTypeId);
+                    table.PrimaryKey("PK_Wards", x => x.WardId);
                 });
 
             migrationBuilder.CreateTable(
@@ -264,13 +284,12 @@ namespace HMS.Library.Migrations
                     PatientId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    Dob = table.Column<DateOnly>(type: "date", nullable: true),
                     Gender = table.Column<int>(type: "int", nullable: false),
-                    Age = table.Column<int>(type: "int", nullable: true),
+                    Age = table.Column<int>(type: "int", nullable: false),
                     ContactNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BloodTypeID = table.Column<int>(type: "int", nullable: true),
+                    BloodTypeID = table.Column<int>(type: "int", nullable: false),
                     InsuranceInformation = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -281,7 +300,8 @@ namespace HMS.Library.Migrations
                         name: "FK_Patients_BloodTypes_BloodTypeID",
                         column: x => x.BloodTypeID,
                         principalTable: "BloodTypes",
-                        principalColumn: "BloodTypeId");
+                        principalColumn: "BloodTypeId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -296,8 +316,8 @@ namespace HMS.Library.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Schedule = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Shift = table.Column<int>(type: "int", nullable: false),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DepartmentID = table.Column<int>(type: "int", nullable: true)
+                    DepartmentID = table.Column<int>(type: "int", nullable: true),
+                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -332,235 +352,6 @@ namespace HMS.Library.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Transactions",
-                columns: table => new
-                {
-                    TransactionId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TransactionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    PaidAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    RefTypeID = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Transactions", x => x.TransactionId);
-                    table.ForeignKey(
-                        name: "FK_Transactions_TranRefType_RefTypeID",
-                        column: x => x.RefTypeID,
-                        principalTable: "TranRefType",
-                        principalColumn: "TranRefTypeId");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Followups",
-                columns: table => new
-                {
-                    FollowupId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PatientID = table.Column<int>(type: "int", nullable: true),
-                    Reason = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Followups", x => x.FollowupId);
-                    table.ForeignKey(
-                        name: "FK_Followups_Patients_PatientID",
-                        column: x => x.PatientID,
-                        principalTable: "Patients",
-                        principalColumn: "PatientId");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Prescribes",
-                columns: table => new
-                {
-                    PrescriptionId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PatientID = table.Column<int>(type: "int", nullable: true),
-                    Medication = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    Dosgae = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Instructions = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Prescribes", x => x.PrescriptionId);
-                    table.ForeignKey(
-                        name: "FK_Prescribes_Patients_PatientID",
-                        column: x => x.PatientID,
-                        principalTable: "Patients",
-                        principalColumn: "PatientId");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Reports",
-                columns: table => new
-                {
-                    ReportId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PatientID = table.Column<int>(type: "int", nullable: true),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ReportTypeID = table.Column<int>(type: "int", nullable: true),
-                    ReportAuthor = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ReportContent = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Reports", x => x.ReportId);
-                    table.ForeignKey(
-                        name: "FK_Reports_Patients_PatientID",
-                        column: x => x.PatientID,
-                        principalTable: "Patients",
-                        principalColumn: "PatientId");
-                    table.ForeignKey(
-                        name: "FK_Reports_ReportTypes_ReportTypeID",
-                        column: x => x.ReportTypeID,
-                        principalTable: "ReportTypes",
-                        principalColumn: "ReportTypeId");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Wards",
-                columns: table => new
-                {
-                    WardId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    WardName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DepartmentID = table.Column<int>(type: "int", nullable: true),
-                    PatientId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Wards", x => x.WardId);
-                    table.ForeignKey(
-                        name: "FK_Wards_Departments_DepartmentID",
-                        column: x => x.DepartmentID,
-                        principalTable: "Departments",
-                        principalColumn: "DepartmentId");
-                    table.ForeignKey(
-                        name: "FK_Wards_Patients_PatientId",
-                        column: x => x.PatientId,
-                        principalTable: "Patients",
-                        principalColumn: "PatientId");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "DoctorPatient",
-                columns: table => new
-                {
-                    DoctorId = table.Column<int>(type: "int", nullable: false),
-                    PatientId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DoctorPatient", x => new { x.DoctorId, x.PatientId });
-                    table.ForeignKey(
-                        name: "FK_DoctorPatient_Doctors_DoctorId",
-                        column: x => x.DoctorId,
-                        principalTable: "Doctors",
-                        principalColumn: "DoctorId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_DoctorPatient_Patients_PatientId",
-                        column: x => x.PatientId,
-                        principalTable: "Patients",
-                        principalColumn: "PatientId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Appointments",
-                columns: table => new
-                {
-                    AppointmentId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PatientID = table.Column<int>(type: "int", nullable: true),
-                    DoctorID = table.Column<int>(type: "int", nullable: true),
-                    DepartmentID = table.Column<int>(type: "int", nullable: true),
-                    AppointmentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AppointmentTypeID = table.Column<int>(type: "int", nullable: true),
-                    PrescribeID = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Appointments", x => x.AppointmentId);
-                    table.ForeignKey(
-                        name: "FK_Appointments_AppointmentTypes_AppointmentTypeID",
-                        column: x => x.AppointmentTypeID,
-                        principalTable: "AppointmentTypes",
-                        principalColumn: "AppointmentTypeId");
-                    table.ForeignKey(
-                        name: "FK_Appointments_Departments_DepartmentID",
-                        column: x => x.DepartmentID,
-                        principalTable: "Departments",
-                        principalColumn: "DepartmentId");
-                    table.ForeignKey(
-                        name: "FK_Appointments_Doctors_DoctorID",
-                        column: x => x.DoctorID,
-                        principalTable: "Doctors",
-                        principalColumn: "DoctorId");
-                    table.ForeignKey(
-                        name: "FK_Appointments_Patients_PatientID",
-                        column: x => x.PatientID,
-                        principalTable: "Patients",
-                        principalColumn: "PatientId");
-                    table.ForeignKey(
-                        name: "FK_Appointments_Prescribes_PrescribeID",
-                        column: x => x.PrescribeID,
-                        principalTable: "Prescribes",
-                        principalColumn: "PrescriptionId");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Emergencies",
-                columns: table => new
-                {
-                    EmergencyId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PatientID = table.Column<int>(type: "int", nullable: true),
-                    DoctorID = table.Column<int>(type: "int", nullable: true),
-                    DepartmentID = table.Column<int>(type: "int", nullable: true),
-                    PrescribeID = table.Column<int>(type: "int", nullable: true),
-                    Location = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    EmergencyDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Severity = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Emergencies", x => x.EmergencyId);
-                    table.ForeignKey(
-                        name: "FK_Emergencies_Departments_DepartmentID",
-                        column: x => x.DepartmentID,
-                        principalTable: "Departments",
-                        principalColumn: "DepartmentId");
-                    table.ForeignKey(
-                        name: "FK_Emergencies_Doctors_DoctorID",
-                        column: x => x.DoctorID,
-                        principalTable: "Doctors",
-                        principalColumn: "DoctorId");
-                    table.ForeignKey(
-                        name: "FK_Emergencies_Patients_PatientID",
-                        column: x => x.PatientID,
-                        principalTable: "Patients",
-                        principalColumn: "PatientId");
-                    table.ForeignKey(
-                        name: "FK_Emergencies_Prescribes_PrescribeID",
-                        column: x => x.PrescribeID,
-                        principalTable: "Prescribes",
-                        principalColumn: "PrescriptionId");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Nurses",
                 columns: table => new
                 {
@@ -569,6 +360,7 @@ namespace HMS.Library.Migrations
                     Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     ContactNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Shift = table.Column<int>(type: "int", nullable: false),
+                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     WardID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -602,6 +394,167 @@ namespace HMS.Library.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Billings",
+                columns: table => new
+                {
+                    BillingId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PatientID = table.Column<int>(type: "int", nullable: false),
+                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    OT_Fee = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    MedicineFee = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    ConsultancyFee = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    BedCharge = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    ServiceCharge = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    OthersFee = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    NetAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    PaidAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    BalanceDue = table.Column<decimal>(type: "decimal(18,2)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Billings", x => x.BillingId);
+                    table.ForeignKey(
+                        name: "FK_Billings_Patients_PatientID",
+                        column: x => x.PatientID,
+                        principalTable: "Patients",
+                        principalColumn: "PatientId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Reports",
+                columns: table => new
+                {
+                    ReportId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PatientID = table.Column<int>(type: "int", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ReportTypeID = table.Column<int>(type: "int", nullable: false),
+                    ReportAuthor = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ReportContent = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reports", x => x.ReportId);
+                    table.ForeignKey(
+                        name: "FK_Reports_Patients_PatientID",
+                        column: x => x.PatientID,
+                        principalTable: "Patients",
+                        principalColumn: "PatientId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Reports_ReportTypes_ReportTypeID",
+                        column: x => x.ReportTypeID,
+                        principalTable: "ReportTypes",
+                        principalColumn: "ReportTypeId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Appointments",
+                columns: table => new
+                {
+                    AppointmentId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PatientID = table.Column<int>(type: "int", nullable: false),
+                    DoctorID = table.Column<int>(type: "int", nullable: false),
+                    DepartmentID = table.Column<int>(type: "int", nullable: false),
+                    AppointmentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Severity = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AppointmentTypeID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Appointments", x => x.AppointmentId);
+                    table.ForeignKey(
+                        name: "FK_Appointments_AppointmentTypes_AppointmentTypeID",
+                        column: x => x.AppointmentTypeID,
+                        principalTable: "AppointmentTypes",
+                        principalColumn: "AppointmentTypeId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Appointments_Departments_DepartmentID",
+                        column: x => x.DepartmentID,
+                        principalTable: "Departments",
+                        principalColumn: "DepartmentId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Appointments_Doctors_DoctorID",
+                        column: x => x.DoctorID,
+                        principalTable: "Doctors",
+                        principalColumn: "DoctorId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Appointments_Patients_PatientID",
+                        column: x => x.PatientID,
+                        principalTable: "Patients",
+                        principalColumn: "PatientId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Emergencies",
+                columns: table => new
+                {
+                    EmergencyId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PatientID = table.Column<int>(type: "int", nullable: false),
+                    DoctorID = table.Column<int>(type: "int", nullable: false),
+                    DepartmentID = table.Column<int>(type: "int", nullable: false),
+                    Location = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    EmergencyDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Severity = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Emergencies", x => x.EmergencyId);
+                    table.ForeignKey(
+                        name: "FK_Emergencies_Departments_DepartmentID",
+                        column: x => x.DepartmentID,
+                        principalTable: "Departments",
+                        principalColumn: "DepartmentId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Emergencies_Doctors_DoctorID",
+                        column: x => x.DoctorID,
+                        principalTable: "Doctors",
+                        principalColumn: "DoctorId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Emergencies_Patients_PatientID",
+                        column: x => x.PatientID,
+                        principalTable: "Patients",
+                        principalColumn: "PatientId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AppointmentPrescribes",
+                columns: table => new
+                {
+                    AppointmentID = table.Column<int>(type: "int", nullable: false),
+                    Symptoms = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FollowupDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FollowupNotes = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppointmentPrescribes", x => x.AppointmentID);
+                    table.ForeignKey(
+                        name: "FK_AppointmentPrescribes_Appointments_AppointmentID",
+                        column: x => x.AppointmentID,
+                        principalTable: "Appointments",
+                        principalColumn: "AppointmentId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Admissions",
                 columns: table => new
                 {
@@ -610,9 +563,10 @@ namespace HMS.Library.Migrations
                     AdmissionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     AppointmentID = table.Column<int>(type: "int", nullable: true),
                     EmergencyID = table.Column<int>(type: "int", nullable: true),
-                    FollowupID = table.Column<int>(type: "int", nullable: true),
-                    WardID = table.Column<int>(type: "int", nullable: true),
-                    PatientId = table.Column<int>(type: "int", nullable: true)
+                    WardID = table.Column<int>(type: "int", nullable: false),
+                    NurseID = table.Column<int>(type: "int", nullable: false),
+                    RoomID = table.Column<int>(type: "int", nullable: false),
+                    AdmissionType = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -628,20 +582,65 @@ namespace HMS.Library.Migrations
                         principalTable: "Emergencies",
                         principalColumn: "EmergencyId");
                     table.ForeignKey(
-                        name: "FK_Admissions_Followups_FollowupID",
-                        column: x => x.FollowupID,
-                        principalTable: "Followups",
-                        principalColumn: "FollowupId");
+                        name: "FK_Admissions_Nurses_NurseID",
+                        column: x => x.NurseID,
+                        principalTable: "Nurses",
+                        principalColumn: "NurseId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Admissions_Patients_PatientId",
-                        column: x => x.PatientId,
-                        principalTable: "Patients",
-                        principalColumn: "PatientId");
+                        name: "FK_Admissions_Rooms_RoomID",
+                        column: x => x.RoomID,
+                        principalTable: "Rooms",
+                        principalColumn: "RoomId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Admissions_Wards_WardID",
                         column: x => x.WardID,
                         principalTable: "Wards",
-                        principalColumn: "WardId");
+                        principalColumn: "WardId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EmergencyPrescribes",
+                columns: table => new
+                {
+                    EmergencyID = table.Column<int>(type: "int", nullable: false),
+                    Symptoms = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FollowupDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FollowupNotes = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmergencyPrescribes", x => x.EmergencyID);
+                    table.ForeignKey(
+                        name: "FK_EmergencyPrescribes_Emergencies_EmergencyID",
+                        column: x => x.EmergencyID,
+                        principalTable: "Emergencies",
+                        principalColumn: "EmergencyId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AppointmentPrescribeDetails",
+                columns: table => new
+                {
+                    AppointmentPrescribeDetailsId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AppointmentID = table.Column<int>(type: "int", nullable: false),
+                    Medication = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Dosgae = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Instructions = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppointmentPrescribeDetails", x => x.AppointmentPrescribeDetailsId);
+                    table.ForeignKey(
+                        name: "FK_AppointmentPrescribeDetails_AppointmentPrescribes_AppointmentID",
+                        column: x => x.AppointmentID,
+                        principalTable: "AppointmentPrescribes",
+                        principalColumn: "AppointmentID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -650,11 +649,10 @@ namespace HMS.Library.Migrations
                 {
                     DischargeId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PatientID = table.Column<int>(type: "int", nullable: true),
+                    AdmissionID = table.Column<int>(type: "int", nullable: false),
                     DischargeDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Reason = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DischargeInstructions = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AdmissionID = table.Column<int>(type: "int", nullable: true)
+                    DischargeInstructions = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -663,65 +661,30 @@ namespace HMS.Library.Migrations
                         name: "FK_Discharges_Admissions_AdmissionID",
                         column: x => x.AdmissionID,
                         principalTable: "Admissions",
-                        principalColumn: "AdmissionId");
-                    table.ForeignKey(
-                        name: "FK_Discharges_Patients_PatientID",
-                        column: x => x.PatientID,
-                        principalTable: "Patients",
-                        principalColumn: "PatientId");
+                        principalColumn: "AdmissionId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Billings",
+                name: "EmergencyPrescribeDetails",
                 columns: table => new
                 {
-                    BillingId = table.Column<int>(type: "int", nullable: false)
+                    EmergencyPrescribeDetailsId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PatientID = table.Column<int>(type: "int", nullable: true),
-                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    ReportID = table.Column<int>(type: "int", nullable: true),
-                    DischargeID = table.Column<int>(type: "int", nullable: true)
+                    EmergencyID = table.Column<int>(type: "int", nullable: false),
+                    Medication = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Dosgae = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Instructions = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Billings", x => x.BillingId);
+                    table.PrimaryKey("PK_EmergencyPrescribeDetails", x => x.EmergencyPrescribeDetailsId);
                     table.ForeignKey(
-                        name: "FK_Billings_Discharges_DischargeID",
-                        column: x => x.DischargeID,
-                        principalTable: "Discharges",
-                        principalColumn: "DischargeId");
-                    table.ForeignKey(
-                        name: "FK_Billings_Patients_PatientID",
-                        column: x => x.PatientID,
-                        principalTable: "Patients",
-                        principalColumn: "PatientId");
-                    table.ForeignKey(
-                        name: "FK_Billings_Reports_ReportID",
-                        column: x => x.ReportID,
-                        principalTable: "Reports",
-                        principalColumn: "ReportId");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "BillingDetails",
-                columns: table => new
-                {
-                    BillingDetailsId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    BillingID = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BillingDetails", x => x.BillingDetailsId);
-                    table.ForeignKey(
-                        name: "FK_BillingDetails_Billings_BillingID",
-                        column: x => x.BillingID,
-                        principalTable: "Billings",
-                        principalColumn: "BillingId");
+                        name: "FK_EmergencyPrescribeDetails_EmergencyPrescribes_EmergencyID",
+                        column: x => x.EmergencyID,
+                        principalTable: "EmergencyPrescribes",
+                        principalColumn: "EmergencyID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -756,6 +719,23 @@ namespace HMS.Library.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Departments",
+                columns: new[] { "DepartmentId", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Medicine" },
+                    { 2, "ENT" },
+                    { 3, "Child" },
+                    { 4, "Gynecology" },
+                    { 5, "BurnUnit" },
+                    { 6, "Cardiology" },
+                    { 7, "Orthopedic" },
+                    { 8, "Surgical" },
+                    { 9, "Neurology" },
+                    { 10, "Dental" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "ReportTypes",
                 columns: new[] { "ReportTypeId", "Name" },
                 values: new object[,]
@@ -768,14 +748,152 @@ namespace HMS.Library.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "TranRefType",
-                columns: new[] { "TranRefTypeId", "Name" },
+                table: "Staffs",
+                columns: new[] { "StaffId", "Address", "ContactNo", "Designation", "Email", "ImagePath", "Shift", "StaffName" },
                 values: new object[,]
                 {
-                    { 1, "Doctor" },
-                    { 2, "Nurse" },
-                    { 3, "Staff" },
-                    { 4, "Supplier" }
+                    { 1, "Dhaka", "01823459999", "Hospital Administrator", "karim@gmail.com", null, 0, "Md.Karim" },
+                    { 2, "ctg", "01823459977", "Chief Medical Officer (CMO)", "rahim@gmail.com", null, 0, "Md.Rahim" },
+                    { 3, "Dhaka", "01623459978", "Chief Nursing Officer (CNO)", "jannat@gmail.com", null, 0, "Mss.Jannat" },
+                    { 4, "ctg", "01523459977", "Director of Operations", "maruf@gmail.com", null, 0, "Md.Maruf" },
+                    { 5, "ctg", "01823456645", "Finance Manager", "krim45@gmail.com", null, 0, "Md.Krim" },
+                    { 6, "Dhaka", "01823459977", "Human Resources Manager:", "hasib@gmail.com", null, 0, "Md.Hasib" },
+                    { 7, "ctg", "01523459990", "Information Technology (IT) Manager:", "aziz90@gmail.com", null, 0, "Md.Aziz" },
+                    { 8, "ctg", "01823459778", "Quality Improvement Manager", "rashed78@gmail.com", null, 0, "Md.Rashed" },
+                    { 9, "Dhaka", "01823459989", "Medical Records Manager", "habib@gmail.com", null, 0, "Md.Habib" },
+                    { 10, "ctg", "01823459999", "Supply Chain Manager", "adil@gmail.com", null, 0, "Md.Adil" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Suppliers",
+                columns: new[] { "SupplierId", "Address", "ContactNo", "Email", "Name" },
+                values: new object[,]
+                {
+                    { 1, "ctg", "01823456612", "timelyproductltd.@gmail.com", "Timely Product Ltd." },
+                    { 2, "ctg", "01823456622", " crifooIntertradeltd.@gmail.com", " Crifoo Intertrade Ltd." },
+                    { 3, "ctg", "01523457712", " Care71@gmail.com", " 71 Care" },
+                    { 4, "Dhaka", "01823456999", "continentalsurgicalhouse@gmail.com", "Continental Surgical House" },
+                    { 5, "Dhaka", "01823459999", "anifcohealthcare@gmail.com", "Anifco Healthcare" },
+                    { 6, "ctg", "01823456777", "bmabazar777@gmail.com", "BMA Bazar" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Wards",
+                columns: new[] { "WardId", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Medicine ward " },
+                    { 2, "ENT ward " },
+                    { 3, "Child ward " },
+                    { 4, "Gynecology Ward " },
+                    { 5, "Burn Unit Ward" },
+                    { 6, "Cardiology Ward" },
+                    { 7, "Orthopedic Ward " },
+                    { 8, "Surgical Ward " },
+                    { 9, "Neurology Ward" },
+                    { 10, "Dental Ward" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Doctors",
+                columns: new[] { "DoctorId", "ContactNo", "DepartmentID", "Email", "ImagePath", "Name", "Schedule", "Shift", "Specialization" },
+                values: new object[,]
+                {
+                    { 1, "+880-181-2225587", 1, "farhana@example.com", null, "Dr. Farhana Rahman", "Sat-Thu 10-1", 0, "Gynecologist" },
+                    { 2, "+880-171-1234567", 1, "mohammad.rahman@example.com", null, "Dr. Mohammad Rahman", "Sun-Thu 9-1", 1, "Cardiologist" },
+                    { 3, "+880-191-9876543", 2, "fatima.ahmed@example.com", null, "Dr. Fatima Ahmed", "Sun-Thu 10-2", 2, "Dermatologist" },
+                    { 4, "+880-181-8765432", 2, "ayesha.khan@example.com", null, "Dr. Ayesha Khan", "Sun-Thu 8-12", 0, "Neurologist" },
+                    { 5, "+880-171-2345678", 3, "nazia.islam@example.com", null, "Dr. Nazia Islam", "Sat-Thu 9-1", 1, "Obstetrician" },
+                    { 6, "+880-191-3456789", 3, "kamal.hossain@example.com", null, "Dr. Kamal Hossain", "Sat-Thu 10-2", 2, "Endocrinologist" },
+                    { 7, "+880-181-4567890", 4, "sabrina.yasmin@example.com", null, "Dr. Sabrina Yasmin", "Sat-Thu 8-12", 0, "Ophthalmologist" },
+                    { 8, "+880-171-5678901", 4, "rahman.chowdhury@example.com", null, "Dr. Rahman Chowdhury", "Sat-Thu 9-1", 1, "Orthodontist" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "InventoryItems",
+                columns: new[] { "InventoryItemId", "Category", "Name", "Price", "Quantity", "SupplierID" },
+                values: new object[,]
+                {
+                    { 1, "latex", "Bandages", 100m, 50, 2 },
+                    { 3, "Normal", "Gauze pads", 10000m, 500, 1 },
+                    { 4, "10ml", "Syringes", 1000m, 50, 1 },
+                    { 5, "40mm", "Needles", 100m, 50, 3 },
+                    { 6, "Peripheral IV", "IV catheters", 100m, 50, 4 },
+                    { 7, "Normal", "Surgical masks", 100m, 50, 2 },
+                    { 8, "Antiseptics & Disinfectants", "Alcohol swabs", 100m, 50, 5 },
+                    { 9, "Normal", "Bandages", 100m, 50, 6 },
+                    { 10, "general", "Bandages", 10000m, 50, 6 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Nurses",
+                columns: new[] { "NurseId", "ContactNo", "ImagePath", "Name", "Shift", "WardID" },
+                values: new object[,]
+                {
+                    { 1, "0123456789", null, "Lutfarnahar", 0, 1 },
+                    { 2, "0123222789", null, "Nahar", 1, 1 },
+                    { 3, "0123336789", null, "Ayesha", 2, 1 },
+                    { 4, "0123456744", null, "Jamila", 0, 2 },
+                    { 5, "0123456775", null, "Runa khatun", 1, 2 },
+                    { 6, "0123456766", null, "Nasrin", 2, 2 },
+                    { 7, "0123456663", null, "Arifa", 0, 7 },
+                    { 8, "0123458879", null, "Maria ", 1, 8 },
+                    { 9, "0123452299", null, "Sanjida", 2, 9 },
+                    { 10, "0123412389", null, "Riya ", 0, 10 },
+                    { 11, "0123789789", null, "Priya", 1, 1 },
+                    { 12, "0123455669", null, "Puja Shill", 2, 2 },
+                    { 13, "0188456789", null, "Ratna khatun", 0, 3 },
+                    { 14, "01643456789", null, "Tuli ", 1, 4 },
+                    { 15, "0198456789", null, "Tasnia", 2, 5 },
+                    { 16, "0155456789", null, "Urmi", 0, 6 },
+                    { 17, "0155456689", null, "Rahima", 1, 7 },
+                    { 18, "0177756789", null, "Amena", 2, 8 },
+                    { 19, "018976789", null, "Latifa Akter", 0, 9 },
+                    { 20, "012655569", null, "Farin akter", 1, 10 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Patients",
+                columns: new[] { "PatientId", "Address", "Age", "BloodTypeID", "ContactNo", "Email", "Gender", "InsuranceInformation", "Name", "Status" },
+                values: new object[,]
+                {
+                    { 1, "123 ABC Street, Dhaka", 28, 1, "+880-171-1234567", "ayesha.rahman@example.com", 2, "Policy #123456", "Ayesha Rahman", "Active" },
+                    { 2, "456 XYZ Road, Chittagong", 30, 2, "+880-191-2345678", "mohammad.ali@example.com", 1, "Policy #789012", "Mohammad Ali", "Active" },
+                    { 3, "789 LMN Avenue, Sylhet", 32, 3, "+880-181-3456789", "fatima.khan@example.com", 2, "Policy #345678", "Fatima Khan", "Active" },
+                    { 4, "321 PQR Lane, Rajshahi", 26, 1, "+880-171-4567890", "rahim.khan@example.com", 1, "Policy #234567", "Rahim Khan", "Active" },
+                    { 5, "789 XYZ Street, Khulna", 33, 2, "+880-191-5678901", "nusrat.jahan@example.com", 2, "Policy #890123", "Nusrat Jahan", "Active" },
+                    { 6, "147 LMN Road, Barishal", 29, 3, "+880-181-6789012", "kamal.hossain@example.com", 1, "Policy #456789", "Kamal Hossain", "Active" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Rooms",
+                columns: new[] { "RoomId", "RoomNumber", "Status", "WardID" },
+                values: new object[,]
+                {
+                    { 1, "A-101", "Standard Room", 1 },
+                    { 2, "B-102", "General Room ", 1 },
+                    { 3, "C-103", "VIP Room ", 1 },
+                    { 4, "A-104", " Standard Room", 2 },
+                    { 5, "B-105", "General Room  ", 2 },
+                    { 6, "C-106", " VIP Room", 2 },
+                    { 7, "A-107", "Standard Room", 3 },
+                    { 8, "B-108", " General Room ", 3 },
+                    { 9, "C-109", "VIP Room", 3 },
+                    { 10, "A-110", " Standard Room", 4 },
+                    { 11, "B-111", "General Room ", 4 },
+                    { 12, "C-112", " VIP Room", 4 },
+                    { 13, "A-201", "Standard Room", 5 },
+                    { 14, "B-202", " General Room", 5 },
+                    { 15, "C-203", "VIP Room ", 5 },
+                    { 16, "A-204", " Standard Room", 6 },
+                    { 17, "B-205", "General Room", 6 },
+                    { 18, "C-206", " VIP Room ", 6 },
+                    { 19, "A-207", "Standard Room", 7 },
+                    { 20, "B-208", " General Room", 7 },
+                    { 21, "A-209", "Standard Room", 8 },
+                    { 22, "B-210", " General Room", 8 },
+                    { 23, "A-211", "Standard Room", 9 },
+                    { 24, "B-212", " General Room", 10 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -789,19 +907,24 @@ namespace HMS.Library.Migrations
                 column: "EmergencyID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Admissions_FollowupID",
+                name: "IX_Admissions_NurseID",
                 table: "Admissions",
-                column: "FollowupID");
+                column: "NurseID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Admissions_PatientId",
+                name: "IX_Admissions_RoomID",
                 table: "Admissions",
-                column: "PatientId");
+                column: "RoomID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Admissions_WardID",
                 table: "Admissions",
                 column: "WardID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppointmentPrescribeDetails_AppointmentID",
+                table: "AppointmentPrescribeDetails",
+                column: "AppointmentID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Appointments_AppointmentTypeID",
@@ -822,11 +945,6 @@ namespace HMS.Library.Migrations
                 name: "IX_Appointments_PatientID",
                 table: "Appointments",
                 column: "PatientID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Appointments_PrescribeID",
-                table: "Appointments",
-                column: "PrescribeID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -863,39 +981,14 @@ namespace HMS.Library.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BillingDetails_BillingID",
-                table: "BillingDetails",
-                column: "BillingID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Billings_DischargeID",
-                table: "Billings",
-                column: "DischargeID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Billings_PatientID",
                 table: "Billings",
                 column: "PatientID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Billings_ReportID",
-                table: "Billings",
-                column: "ReportID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Discharges_AdmissionID",
                 table: "Discharges",
                 column: "AdmissionID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Discharges_PatientID",
-                table: "Discharges",
-                column: "PatientID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DoctorPatient_PatientId",
-                table: "DoctorPatient",
-                column: "PatientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Doctors_DepartmentID",
@@ -918,14 +1011,9 @@ namespace HMS.Library.Migrations
                 column: "PatientID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Emergencies_PrescribeID",
-                table: "Emergencies",
-                column: "PrescribeID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Followups_PatientID",
-                table: "Followups",
-                column: "PatientID");
+                name: "IX_EmergencyPrescribeDetails_EmergencyID",
+                table: "EmergencyPrescribeDetails",
+                column: "EmergencyID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_InventoryItems_SupplierID",
@@ -943,11 +1031,6 @@ namespace HMS.Library.Migrations
                 column: "BloodTypeID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Prescribes_PatientID",
-                table: "Prescribes",
-                column: "PatientID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Reports_PatientID",
                 table: "Reports",
                 column: "PatientID");
@@ -961,26 +1044,14 @@ namespace HMS.Library.Migrations
                 name: "IX_Rooms_WardID",
                 table: "Rooms",
                 column: "WardID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Transactions_RefTypeID",
-                table: "Transactions",
-                column: "RefTypeID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Wards_DepartmentID",
-                table: "Wards",
-                column: "DepartmentID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Wards_PatientId",
-                table: "Wards",
-                column: "PatientId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AppointmentPrescribeDetails");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -997,19 +1068,19 @@ namespace HMS.Library.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "BillingDetails");
+                name: "Billings");
 
             migrationBuilder.DropTable(
-                name: "DoctorPatient");
+                name: "Discharges");
+
+            migrationBuilder.DropTable(
+                name: "EmergencyPrescribeDetails");
 
             migrationBuilder.DropTable(
                 name: "InventoryItems");
 
             migrationBuilder.DropTable(
-                name: "Nurses");
-
-            migrationBuilder.DropTable(
-                name: "Rooms");
+                name: "Reports");
 
             migrationBuilder.DropTable(
                 name: "Staffs");
@@ -1018,28 +1089,22 @@ namespace HMS.Library.Migrations
                 name: "Transactions");
 
             migrationBuilder.DropTable(
+                name: "AppointmentPrescribes");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Billings");
+                name: "Admissions");
+
+            migrationBuilder.DropTable(
+                name: "EmergencyPrescribes");
 
             migrationBuilder.DropTable(
                 name: "Suppliers");
-
-            migrationBuilder.DropTable(
-                name: "TranRefType");
-
-            migrationBuilder.DropTable(
-                name: "Discharges");
-
-            migrationBuilder.DropTable(
-                name: "Reports");
-
-            migrationBuilder.DropTable(
-                name: "Admissions");
 
             migrationBuilder.DropTable(
                 name: "ReportTypes");
@@ -1048,28 +1113,28 @@ namespace HMS.Library.Migrations
                 name: "Appointments");
 
             migrationBuilder.DropTable(
+                name: "Nurses");
+
+            migrationBuilder.DropTable(
+                name: "Rooms");
+
+            migrationBuilder.DropTable(
                 name: "Emergencies");
-
-            migrationBuilder.DropTable(
-                name: "Followups");
-
-            migrationBuilder.DropTable(
-                name: "Wards");
 
             migrationBuilder.DropTable(
                 name: "AppointmentTypes");
 
             migrationBuilder.DropTable(
+                name: "Wards");
+
+            migrationBuilder.DropTable(
                 name: "Doctors");
 
             migrationBuilder.DropTable(
-                name: "Prescribes");
+                name: "Patients");
 
             migrationBuilder.DropTable(
                 name: "Departments");
-
-            migrationBuilder.DropTable(
-                name: "Patients");
 
             migrationBuilder.DropTable(
                 name: "BloodTypes");

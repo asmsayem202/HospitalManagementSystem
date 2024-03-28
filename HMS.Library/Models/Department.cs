@@ -14,7 +14,7 @@ namespace HMS.Library.Models
 		[Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int DepartmentId { get; set; }
 		[Required]
-		public string DepartmentName { get; set; }
+		public string Name { get; set; }
 
         //Navigation Property
         
